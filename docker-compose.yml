@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  spring_app:
+    build: .
+    restart: always
+    ports:
+      - 8086:8086
+
+    depends_on:
+      - mysqldb
+
+  mysqldb:
+
+    image: mysql
+    restart: always
+    ports:
+      - 3307:3306
+    environment:
+       MYSQL_DATABASE: upload
+       MYSQL_PASSWORD: root
+       MYSQL_USER: root
+       MYSQL_ROOT_PASSWORD: root
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#services:
+#  mysqldb:
+#    container_name: mysqldb
+#    image: mysql
+#    restart: always
+#
+#    environment:
+#      MYSQL_DATABASE: upload
+#      MYSQL_ROOT_PASSWORD: root
+#
+#    ports:
+#      - 3305:3306
+#
+#
+#  spring_app:
+#    depends_on:
+#      - mysqldb
+#    image: spring-boot-docker.jar
+#
+#    ports:
+#      - 8089:8089
+#
+#    container_name: back
+#
+#    environment:
+#      MYSQL_HOST: mysqldb
+#      MYSQL_USER : root
+#      MYSQL_PASSWORD: root
+#      MYSQL_PORT : 3306
+
+
+
+  angular_app:
+    depends_on:
+      - spring_app
+    image: babylon-ng
+    ports:
+      - 4200:80
+    container_name: Demo
