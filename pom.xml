@@ -106,6 +106,18 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+<distributionManagement>
+		<repository>
+      			<id>deploymentRepo</id>
+        		<name>nexus-release</name>
+        		<url>http://192.168.56.3:8081/repository/maven-releases/</url>
+    		</repository>
+                <snapshotRepository>
+                        <id>deploymentRepo</id>
+			<name>nexus-snapshot</name>
+                        <url>http://192.168.56.3:8081/repository/maven-snapshots/</url>
+                </snapshotRepository>
+        </distributionManagement>
 
 
 	<build>
