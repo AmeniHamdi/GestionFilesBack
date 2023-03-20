@@ -1,5 +1,4 @@
 com/example/csv/services/implementation/TiersServiceImplTest.class
 com/example/csv/services/implementation/ContratServiceTest.class
 com/example/csv/services/implementation/DossierServiceImplTest.class
-com/example/csv/controllers/TiersControllerTest.class
 com/example/csv/CsvApplicationTests.class
