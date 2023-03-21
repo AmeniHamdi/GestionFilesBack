@@ -19,9 +19,15 @@ services:
     environment:
        MYSQL_DATABASE: upload
        MYSQL_PASSWORD: root
-       MYSQL_USER: root
        MYSQL_ROOT_PASSWORD: root
 
+  angular_app:
+    depends_on:
+      - spring_app
+    image: babylon-ng
+    ports:
+      - 4200:80
+    container_name: Demo
 
 
 
@@ -35,7 +41,9 @@ services:
 
 
 
-#services:
+
+
+  #services:
 #  mysqldb:
 #    container_name: mysqldb
 #    image: mysql
@@ -67,10 +75,3 @@ services:
 
 
 
-  angular_app:
-    depends_on:
-      - spring_app
-    image: babylon-ng
-    ports:
-      - 4200:80
-    container_name: Demo
