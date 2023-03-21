@@ -147,7 +147,6 @@
         <groupId>org.sonarsource.scanner.maven</groupId>
         <artifactId>sonar-maven-plugin</artifactId>
       </plugin>
-	<plugin>
 		</plugins>
 		<finalName>spring-boot-docker</finalName>
 	</build>
