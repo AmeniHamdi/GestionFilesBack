@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DossierController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">csv</a> &gt; <a href="index.source.html" class="el_package">com.example.csv.controllers</a> &gt; <span class="el_source">DossierController.java</span></div><h1>DossierController.java</h1><pre class="source lang-java linenums">package com.example.csv.controllers;
+
+import com.example.csv.DTO.DossierDTO;
+import com.example.csv.domain.*;
+import com.example.csv.helper.CSVHelper;
+import com.example.csv.services.DossierService;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
+
+@CrossOrigin(&quot;*&quot;)
+@RestController
+@RequestMapping(&quot;/api/csv/dossier&quot;)
+<span class="nc" id="L21">@AllArgsConstructor</span>
+<span class="nc" id="L22">@Slf4j</span>
+public class DossierController {
+
+    @Autowired
+    private final DossierService fileService;
+    @CrossOrigin
+    @PostMapping(&quot;/upload&quot;)
+    public ResponseEntity&lt;ResponseMessage&gt; uploadFile(@RequestParam(&quot;file&quot;) MultipartFile file) throws IOException {
+<span class="nc" id="L30">        String message = &quot;&quot;;</span>
+
+<span class="nc bnc" id="L32" title="All 2 branches missed.">        if (CSVHelper.hasCSVFormat(file)) {</span>
+            try {
+
+<span class="nc" id="L35">                fileService.saveFile(file);</span>
+
+<span class="nc" id="L37">                message = &quot;Uploaded the file successfully: &quot; + file.getOriginalFilename();</span>
+<span class="nc" id="L38">                return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));</span>
+<span class="nc" id="L39">            } catch (Exception e) {</span>
+<span class="nc" id="L40">                message = &quot;Could not upload the file: &quot; + file.getOriginalFilename() + &quot;!&quot;;</span>
+<span class="nc" id="L41">                log.info(String.valueOf(e));</span>
+<span class="nc" id="L42">                return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));</span>
+            }
+        }
+
+<span class="nc" id="L46">        message = &quot;Please upload a csv file!&quot;;</span>
+<span class="nc" id="L47">        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));</span>
+    }
+    @CrossOrigin
+    @PostMapping
+    public Dossier save(@RequestBody Dossier dossier){
+
+<span class="nc" id="L53">        return fileService.save(dossier);</span>
+    }
+
+    @CrossOrigin
+    @GetMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;Dossier&gt; getDossier(@PathVariable(&quot;id&quot;) Long id){
+<span class="nc" id="L59">        Dossier dossier = fileService.getDossier(id);</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">        if(dossier.equals(null)){</span>
+<span class="nc" id="L61">            return new ResponseEntity&lt;&gt;(HttpStatus.NO_CONTENT);</span>
+        }
+<span class="nc" id="L63">        return new ResponseEntity&lt;&gt;(dossier, HttpStatus.OK);</span>
+    }
+    @CrossOrigin
+    @DeleteMapping(&quot;/{id}&quot;)
+    public  ResponseEntity&lt;Void&gt; deleteDossier(@PathVariable(&quot;id&quot;) Long id){
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        if(fileService.getDossier(id)== null){</span>
+<span class="nc" id="L69">            return new ResponseEntity&lt;&gt;(HttpStatus.NO_CONTENT);</span>
+        }
+<span class="nc" id="L71">        fileService.delete(id);</span>
+<span class="nc" id="L72">        return new ResponseEntity&lt;&gt;(HttpStatus.OK);</span>
+    }
+
+
+
+
+    @CrossOrigin
+    @PatchMapping(&quot;/edit&quot;)
+    public ResponseEntity&lt;Void&gt; updateDossier(@RequestBody Dossier dossier){
+
+<span class="nc" id="L82">        boolean updated = fileService.update(dossier);</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">        return updated ? new ResponseEntity&lt;&gt;(HttpStatus.OK) : new ResponseEntity&lt;&gt;(HttpStatus.NOT_FOUND);</span>
+
+
+    }
+    @CrossOrigin
+    @GetMapping
+    public ResponseEntity&lt;GetAllType&lt;Dossier&gt;&gt; getAllDossiers(
+            @RequestParam(defaultValue = &quot;0&quot;) int page,
+            @RequestParam(defaultValue = &quot;5&quot;) int size,
+            @RequestParam(defaultValue = &quot;id&quot;) String sortBy,
+            @RequestParam(defaultValue = &quot;true&quot;) boolean asc
+    )
+    {
+<span class="nc" id="L96">        GetAllType&lt;Dossier&gt; data = fileService.getAllDossiers(page, size, sortBy, asc);</span>
+<span class="nc" id="L97">        return new ResponseEntity&lt;&gt;(data, HttpStatus.OK);</span>
+    }
+
+    @GetMapping(&quot;/get/{field}&quot;)
+    public List&lt;Dossier&gt; getDossierWithSorting( @PathVariable String field){
+<span class="nc" id="L102">        List&lt;Dossier&gt; AllDossiers = fileService.findDossierWithSorting(field);</span>
+<span class="nc" id="L103">        return AllDossiers;</span>
+    }
+
+
+
+
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
