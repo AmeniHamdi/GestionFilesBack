@@ -106,12 +106,20 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	 <distributionManagement>
-        <repository>
-            <id>deploymentRepo</id>
-            <url>http://192.168.56.3:8081/repository/maven-releases/</url>
-        </repository>
-    </distributionManagement>
+<!-- Nexus -->
+        <distributionManagement>
+		<repository>
+      			<id>deploymentRepo</id>
+        		<name>nexus-release</name>
+        		<url>http://192.168.56.3:8081/repository/maven-releases/</url>
+    		</repository>
+                <snapshotRepository>
+                        <id>deploymentRepo</id>
+			<name>nexus-snapshot</name>
+                        <url>http://192.168.56.3:8081/repository/maven-snapshots/</url>
+                </snapshotRepository>
+        </distributionManagement>
+	 
 
 	<build>
 		<plugins>
@@ -136,25 +144,6 @@
                         </includes>
                 </configuration>
             </plugin>
-            <plugin>
-    <groupId>org.jacoco</groupId>
-    <artifactId>jacoco-maven-plugin</artifactId>
-<version>0.8.7</version>
-    <executions>
-        <execution>
-            <goals>
-                <goal>prepare-agent</goal>
-            </goals>
-        </execution>
-        <execution>
-            <id>report</id>
-            <phase>prepare-package</phase>
-            <goals>
-                <goal>report</goal>
-            </goals>
-        </execution>
-    </executions>
-</plugin>
 		</plugins>
 		<finalName>spring-boot-docker</finalName>
 	</build>
