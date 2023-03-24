@@ -21,13 +21,13 @@ services:
        MYSQL_PASSWORD: root
        MYSQL_ROOT_PASSWORD: root
 
-  angular_app:
-    depends_on:
-      - spring_app
-    image: babylon-ng
-    ports:
-      - 4200:80
-    container_name: Demo
+#  angular_app:
+ #   depends_on:
+  #    - spring_app
+  #  image: babylon-ng
+   # ports:
+    #  - 4200:80
+   # container_name: Demo
 
 
 
