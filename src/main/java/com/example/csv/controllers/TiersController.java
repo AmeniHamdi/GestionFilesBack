@@ -101,16 +101,13 @@ public class TiersController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size,
             @RequestParam(defaultValue = "id") String sortBy,
-            @RequestParam(defaultValue = "true") boolean asc
+            @RequestParam(defaultValue = "true") boolean asc,
+            @RequestParam(defaultValue = "") String searchTerm
     )
     {
-        GetAllType<Tiers> data = fileService.getAllTiers(page, size, sortBy, asc);
+        GetAllType<Tiers> data = fileService.getAllTiers(page, size, sortBy, asc, searchTerm);
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
-
-
-
-
 
 }
 

@@ -23,6 +23,6 @@ public interface TiersService {
 
 
     boolean update(Tiers tiers);
-    GetAllType<Tiers> getAllTiers(Integer pageNo, Integer pageSize, String sortBy, boolean asc);
+    GetAllType<Tiers> getAllTiers(Integer pageNo, Integer pageSize, String sortBy, boolean asc, String searchTerm);
 
 }
