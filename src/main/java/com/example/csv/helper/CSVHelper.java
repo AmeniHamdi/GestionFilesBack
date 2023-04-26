@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class CSVHelper {
 
@@ -84,6 +85,56 @@ public class CSVHelper {
             throw new RuntimeException("fail to parse CSV file: " + e.getMessage());
         }
     }
+
+    public static Dossier ocrToDossiers(Map<String, String> record) {
+         return new Dossier(
+            null,
+            record.get("dossier_DC"),
+            record.get("Numero"),
+            record.get("ListSDC"),
+            record.get("N_DPS"),
+            record.get("Montant_du_pres")
+         );
+    }
+
+
+    public static Contrat ocrToContrats(Map<String, String> record) {
+        return new Contrat(
+            null,
+            record.get("Num_dossierKPS"),
+            record.get("Num_CP"),
+            record.get("Raison_Social"),
+            record.get("Id_Tiers"),
+            record.get("Num_DC"),
+            record.get("Num_SDC"),
+            record.get("Num_CIR"),
+            record.get("Num_SIREN"),
+            record.get("Ref_Collaborative"),
+            record.get("Code_Produit"),
+            record.get("Identifiant_de_offre_comm"),
+            record.get("Chef_de_File"),
+            record.get("Num_OVI"),
+            record.get("Num_RUM"),
+            record.get("TypeEnergie"),
+            record.get("Produit_Comm"),
+            record.get("Produit"),
+            record.get("Phase"),
+            record.get("Montant_pret")
+        );
+
+    }
+
+    public static Tiers ocrToTiers(Map<String, String> record) {
+        return new Tiers(
+             null,
+            record.get("Numero"),
+            record.get("nom"),
+            record.get("siren"),
+            record.get("ref_mandat")
+        );
+    }
+
+
 
     public static List<Tiers> csvToTiers(InputStream is) {
         try (BufferedReader fileReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));

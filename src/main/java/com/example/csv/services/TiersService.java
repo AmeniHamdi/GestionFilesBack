@@ -5,12 +5,16 @@ import com.example.csv.domain.Tiers;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public interface TiersService {
     public List<Tiers> searchTiers(String numero, String nom, String siren, String refMandat);
 
     Tiers save(Tiers tiers);
+
+    void saveResultsFromOcr(Map<String, String> data);
 
     void saveFile(MultipartFile file);
 

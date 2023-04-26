@@ -14,10 +14,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @AllArgsConstructor
@@ -58,6 +61,12 @@ public class TiersServiceImpl implements TiersService {
     public Tiers save(Tiers tiers) {
 
         return tiersRepo.save(tiers);
+    }
+
+    @Override
+    public void saveResultsFromOcr(Map<String, String> data) {
+            Tiers tiers = CSVHelper.ocrToTiers(data);
+            tiersRepo.save(tiers);
     }
 
     @Override
