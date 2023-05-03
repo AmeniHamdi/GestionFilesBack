@@ -1,5 +1,6 @@
 package com.example.csv.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ public class UserRole {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(mappedBy="role")
+    @OneToMany(mappedBy="role", fetch = FetchType.EAGER)
+    @JsonBackReference
     private List<User> user;
 }

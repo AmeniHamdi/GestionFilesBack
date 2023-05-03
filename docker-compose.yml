@@ -1,77 +1,40 @@
-version: '3.8'
-
+version: "3.3"
 services:
-  spring_app:
-    build: .
-    restart: always
+  mysqldb:
+    image: mysql
+    restart: unless-stopped
     ports:
-      - 8086:8086
-
+      - 3306:33060
+    volumes:
+      - data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQLDB_DATABASE=document
+  spring:
     depends_on:
       - mysqldb
-
-  mysqldb:
-
-    image: mysql
-    restart: always
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    restart: on-failure
     ports:
-      - 3307:3306
+      - "8086:8086"
     environment:
-       MYSQL_DATABASE: upload
-       MYSQL_PASSWORD: root
-       MYSQL_ROOT_PASSWORD: root
-
-#  angular_app:
- #   depends_on:
-  #    - spring_app
-  #  image: babylon-ng
-   # ports:
-    #  - 4200:80
-   # container_name: Demo
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  #services:
-#  mysqldb:
-#    container_name: mysqldb
-#    image: mysql
-#    restart: always
-#
-#    environment:
-#      MYSQL_DATABASE: upload
-#      MYSQL_ROOT_PASSWORD: root
-#
-#    ports:
-#      - 3305:3306
-#
-#
-#  spring_app:
-#    depends_on:
-#      - mysqldb
-#    image: spring-boot-docker.jar
-#
-#    ports:
-#      - 8089:8089
-#
-#    container_name: back
-#
-#    environment:
-#      MYSQL_HOST: mysqldb
-#      MYSQL_USER : root
-#      MYSQL_PASSWORD: root
-#      MYSQL_PORT : 3306
-
-
+      SPRING_APPLICATION_JSON: '{
+        "spring.datasource.url"  : "jdbc:mysql://mysqldb:$MYSQLDB_DOCKER_PORT/$MYSQLDB_DATABASE?useSSL=false&allowPublicKeyRetrieval=true",
+        "spring.datasource.username" :"root",
+        "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQL5InnoDBDialect",
+        "spring.jpa.hibernate.ddl-auto" : "update"
+      }'
+    stdin_open: true
+    tty: true
+  frontend:
+    image: imenfarah/frontrepo
+    restart: unless-stopped
+    ports:
+      - 2020:80
+    depends_on:
+      - spring
+volumes:
+  data :
 

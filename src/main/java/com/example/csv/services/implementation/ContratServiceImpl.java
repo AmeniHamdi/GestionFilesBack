@@ -17,7 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @AllArgsConstructor
@@ -31,6 +33,12 @@ public class ContratServiceImpl implements ContratService {
     public Contrat save(Contrat contrat) {
         contratRepo.save(contrat);
         return contrat;
+    }
+
+    @Override
+    public void saveResultsFromOcr(Map<String, String> data) {
+        Contrat contrat = CSVHelper.ocrToContrats(data);
+        contratRepo.save(contrat);
     }
 
     @Override

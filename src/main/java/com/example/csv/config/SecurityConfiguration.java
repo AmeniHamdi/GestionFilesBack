@@ -1,5 +1,7 @@
 package com.example.csv.config;
 
+import com.example.csv.domain.Role;
+import com.example.csv.domain.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,10 +29,11 @@ public class SecurityConfiguration {
                 .cors()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/swagger-ui/*","api/csv/**" ,"/swagger-resources/**", "/swagger-ui.html",
+                .antMatchers("/swagger-ui/*" ,"/swagger-resources/**", "/swagger-ui.html",
                         "/v2/api-docs",
                         "/webjars/**")
                 .permitAll()
+                .antMatchers( "/ws", "/ws/**", "/kafka", "/kafka/**").permitAll()
                 .antMatchers("/auth/**")
                 .permitAll().antMatchers(HttpMethod.OPTIONS, "/**")
                 .permitAll()

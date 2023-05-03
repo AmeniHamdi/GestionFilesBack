@@ -6,11 +6,11 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.7.8</version>
-		<relativePath/> <!-- lookup parent from repository -->
+                <relativePath/>
 	</parent>
 	<groupId>com.example</groupId>
 	<artifactId>csv</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>csv</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
@@ -70,6 +70,11 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka</artifactId>
+			<version>2.9.2</version>
+		</dependency>
 
         <dependency>
             <groupId>junit</groupId>
@@ -105,8 +110,26 @@
 			<artifactId>mockito-junit-jupiter</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+			<version>3.0.5</version>
+		</dependency>
 	</dependencies>
-
+<!-- Nexus -->
+        <distributionManagement>
+		<repository>
+      			<id>deploymentRepo</id>
+        		<name>nexus-release</name>
+        		<url>http://192.168.56.3:8081/repository/maven-releases/</url>
+    		</repository>
+                <snapshotRepository>
+                        <id>deploymentRepo</id>
+			<name>nexus-snapshot</name>
+                        <url>http://192.168.56.3:8081/repository/maven-snapshots/</url>
+                </snapshotRepository>
+        </distributionManagement>
+	 
 
 	<build>
 		<plugins>
@@ -122,60 +145,39 @@
 					</excludes>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<includes>
-						<include>**/*Test.java</include>
-					</includes>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.7</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-					<!-- attached to Maven test phase -->
-					<execution>
-						<id>report</id>
-						<phase>test</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+
+		<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                        <includes>
+                        <include>**/*Test.java</include>
+                        </includes>
+                </configuration>
+            </plugin>
+	    <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.7</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <!-- attached to Maven test phase -->
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
 		</plugins>
 		<finalName>spring-boot-docker</finalName>
 	</build>
-	<!-- Nexus -->
 
-	<distributionManagement>
-
-	     <repository>
-
-		 <id>deploymentRepo</id>
-
-		 <name>nexus-release</name>
-
-		 <url>http://192.168.33.10:8081/repository/maven-releases/</url>
-
-		 </repository>
-
-	      <snapshotRepository>
-
-	         <id>deploymentRepo</id>
-
-			  <name>nexus-snapshot</name>
-
-	         <url>http://192.168.33.10:8081/repository/maven-snapshots/</url>
-
-		  </snapshotRepository>
-	</distributionManagement>
 </project>
