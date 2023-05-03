@@ -190,8 +190,8 @@ class DossierServiceImplTest {
         @Test
     void getAllDossiers() {
             // create some test data
-            Dossier dossier1 = new Dossier(31l, "hbvba", "1", "ikhog", "ihynr", "jxudn");
-            Dossier dossier2= new Dossier(32l, "hbvba", "1", "ikhog", "ihynr", "jxudn");
+            Dossier dossier1 = new Dossier(32l, "hbvba", "1", "ikhog", "ihynr", "jxudn");
+            Dossier dossier2= new Dossier(31l, "hbvba", "1", "ikhog", "ihynr", "jxudn");
             List<Dossier> expectedDossier = new ArrayList<>();
             expectedDossier.add(dossier1);
             expectedDossier.add(dossier2);
