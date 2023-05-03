@@ -58,7 +58,7 @@ public class AuthenticationService {
                     .build();
             userRepository.save(user);
             String siteURL="";
-            sendVerificationEmail(user, siteURL);
+           // sendVerificationEmail(user, siteURL);
             var jwtToken = jwtService.generateToken(user);
 
             return AuthenticationResponse.builder()

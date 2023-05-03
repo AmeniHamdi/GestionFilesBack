@@ -16,4 +16,6 @@ public interface AdminService {
 
     Boolean deleteUser(Integer id);
 
+     long countUsers();
+
 }
