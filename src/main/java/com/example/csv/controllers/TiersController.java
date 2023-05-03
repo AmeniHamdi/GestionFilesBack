@@ -131,6 +131,10 @@ public class TiersController {
         GetAllType<Tiers> data = fileService.getAllTiers(page, size, sortBy, asc, searchTerm);
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
+    @GetMapping("/count")
+    public Long getTiersCount() {
+        return fileService.countTiers();
+    }
 
 }
 

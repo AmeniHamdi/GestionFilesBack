@@ -103,7 +103,10 @@ public class DossierController {
         return AllDossiers;
     }
 
-
+    @GetMapping("/count")
+    public Long getContractsCount() {
+        return fileService.countDossier();
+    }
 
 
 }

@@ -95,4 +95,8 @@ public class DossierServiceImpl implements DossierService {
     }
 
 
+   @Override
+    public Long countDossier () {
+       return dosRepo.count();
+    }
 }

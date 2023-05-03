@@ -30,5 +30,6 @@ public interface DossierService {
 
     public List<Dossier> findDossierWithSorting(String field);
 
+    public Long countDossier();
 
 }

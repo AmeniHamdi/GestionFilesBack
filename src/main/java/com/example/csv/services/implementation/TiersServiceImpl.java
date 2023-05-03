@@ -132,5 +132,10 @@ public class TiersServiceImpl implements TiersService {
         result.setRows(pagedResult.getContent());
         return  result;
     }
+    @Override
+    public Long countTiers(){
+        return tiersRepo.count();
+    }
+
 
 }

@@ -89,6 +89,10 @@ public class ContratServiceImpl implements ContratService {
         result.setRows(pagedResult.getContent());
         return  result;
     }
+    @Override
+    public Long countContracts(){
+       return contratRepo.count();
+    }
 
 
 }
