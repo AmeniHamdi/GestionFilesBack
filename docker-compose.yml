@@ -10,15 +10,15 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQLDB_DATABASE=document
-    env_file: ./.env
   spring:
     depends_on:
       - mysqldb
-    build: /home/PFE/GestionFilesBack
+    build:
+      context: ./
+      dockerfile: Dockerfile
     restart: on-failure
     ports:
       - "8086:8086"
-    env_file: ./.env
     environment:
       SPRING_APPLICATION_JSON: '{
         "spring.datasource.url"  : "jdbc:mysql://mysqldb:$MYSQLDB_DOCKER_PORT/$MYSQLDB_DATABASE?useSSL=false&allowPublicKeyRetrieval=true",
@@ -28,5 +28,12 @@ services:
       }'
     stdin_open: true
     tty: true
+  frontend:
+    image: amenih/talancdz
+    restart: unless-stopped
+    ports:
+      - 2020:80
+    depends_on:
+      - spring
 volumes:
   data :

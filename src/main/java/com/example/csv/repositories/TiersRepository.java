@@ -13,5 +13,14 @@ import org.springframework.data.domain.Pageable;
 import javax.transaction.Transactional;
 
 public interface TiersRepository extends JpaRepository<Tiers,Long>, JpaSpecificationExecutor<Tiers> {
+
     Page<Tiers> findAll(Pageable pageable);
+
+    @Query("SELECT count(*) FROM Tiers t WHERE CONCAT(UPPER(t.id), UPPER(t.nom), UPPER(t.numero), UPPER(t.siren), UPPER(t.ref_mandat))" +
+            " LIKE %:searchTerm%")
+    Long countBySearchTerm(@Param("searchTerm") String searchTerm);
+
+    @Query("SELECT t FROM Tiers t WHERE CONCAT(UPPER(t.id), UPPER(t.nom), UPPER(t.numero), UPPER(t.siren), UPPER(t.ref_mandat))" +
+            " LIKE %:searchTerm%")
+    Page<Tiers> findAll(@Param("searchTerm") String searchTerm, Pageable pageable);
 }

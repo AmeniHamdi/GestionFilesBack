@@ -17,7 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @AllArgsConstructor
@@ -34,6 +36,12 @@ public class DossierServiceImpl implements DossierService {
             throw new RuntimeException(e);
         }
 
+    }
+
+    @Override
+    public void saveResultsFromOcr(Map<String, String> data) {
+            Dossier dossier = CSVHelper.ocrToDossiers(data);
+            dosRepo.save(dossier);
     }
 
     public List<Dossier> getAllDossiers() {

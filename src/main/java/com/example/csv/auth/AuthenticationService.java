@@ -13,6 +13,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -57,7 +58,7 @@ public class AuthenticationService {
                     .build();
             userRepository.save(user);
             String siteURL="";
-            sendVerificationEmail(user, siteURL);
+           // sendVerificationEmail(user, siteURL);
             var jwtToken = jwtService.generateToken(user);
 
             return AuthenticationResponse.builder()

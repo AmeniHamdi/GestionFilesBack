@@ -14,10 +14,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @AllArgsConstructor
@@ -61,6 +64,12 @@ public class TiersServiceImpl implements TiersService {
     }
 
     @Override
+    public void saveResultsFromOcr(Map<String, String> data) {
+            Tiers tiers = CSVHelper.ocrToTiers(data);
+            tiersRepo.save(tiers);
+    }
+
+    @Override
     public void saveFile(MultipartFile file) {
         try {
             List<Tiers> tiers = CSVHelper.csvToTiers(file.getInputStream());
@@ -101,13 +110,22 @@ public class TiersServiceImpl implements TiersService {
     }
 
     @Override
-    public GetAllType<Tiers> getAllTiers(Integer pageNo, Integer pageSize, String sortBy,boolean asc) {
+    public GetAllType<Tiers> getAllTiers(Integer pageNo, Integer pageSize, String sortBy, boolean asc,
+                                         String searchTerm) {
         Sort.Direction direction = asc ? Sort.Direction.ASC : Sort.Direction.DESC;
 
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
-        Long count = tiersRepo.count();
-        
-        Page<Tiers> pagedResult = tiersRepo.findAll(paging);
+
+        Long count;
+        Page<Tiers> pagedResult;
+        if (searchTerm == null || searchTerm.equals("")) {
+            count = tiersRepo.count();
+            pagedResult = tiersRepo.findAll(paging);
+        } else {
+            count = tiersRepo.countBySearchTerm(searchTerm.toUpperCase());
+            pagedResult = tiersRepo.findAll(searchTerm.toUpperCase()
+                    , paging);
+        }
 
         GetAllType<Tiers>  result= new GetAllType<>();
         result.setCount(count);

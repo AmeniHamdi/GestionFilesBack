@@ -187,25 +187,25 @@ class DossierServiceImplTest {
         String actualMessage = exception.getCause().getMessage();
         assertEquals(expectedMessage, actualMessage);
     }
-        @Test
+    @Test
     void getAllDossiers() {
-            // create some test data
-            Dossier dossier1 = new Dossier(31l, "hbvba", "1", "ikhog", "ihynr", "jxudn");
-            Dossier dossier2= new Dossier(32l, "hbvba", "1", "ikhog", "ihynr", "jxudn");
-            List<Dossier> expectedDossier = new ArrayList<>();
-            expectedDossier.add(dossier1);
-            expectedDossier.add(dossier2);
-            // create a mock repository and configure it to return the test data
-            DossierRepository mockRepo = mock(DossierRepository.class);
-            when(mockRepo.findAll()).thenReturn(expectedDossier);
+        // create some test data
+        Dossier dossier1 = new Dossier(32l, "hbvba", "1", "ikhog", "ihynr", "jxudn");
+        Dossier dossier2= new Dossier(31l, "hbvba", "1", "ikhog", "ihynr", "jxudn");
+        List<Dossier> expectedDossier = new ArrayList<>();
+        expectedDossier.add(dossier1);
+        expectedDossier.add(dossier2);
+        // create a mock repository and configure it to return the test data
+        DossierRepository mockRepo = mock(DossierRepository.class);
+        when(mockRepo.findAll()).thenReturn(expectedDossier);
 
-            // create a service instance with the mock repository
-            DossierServiceImpl dossierService = new DossierServiceImpl(mockRepo);
+        // create a service instance with the mock repository
+        DossierServiceImpl dossierService = new DossierServiceImpl(mockRepo);
 
-            // call the method and verify the results
-            List<Dossier> actualDossier = dossierService.getAllDossiers();
-            assertEquals(expectedDossier, actualDossier);
-            verify(mockRepo).findAll();
+        // call the method and verify the results
+        List<Dossier> actualDossier = dossierService.getAllDossiers();
+        assertEquals(expectedDossier, actualDossier);
+        verify(mockRepo).findAll();
     }
 
 

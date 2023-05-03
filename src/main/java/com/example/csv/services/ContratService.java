@@ -4,10 +4,14 @@ import com.example.csv.domain.Contrat;
 import com.example.csv.domain.GetAllType;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public interface ContratService {
     Contrat save(Contrat contrat);
+
+    void saveResultsFromOcr(Map<String, String> data);
 
     void saveFile(MultipartFile file);
 
