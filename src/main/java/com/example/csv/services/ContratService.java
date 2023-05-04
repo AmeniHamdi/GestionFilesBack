@@ -1,5 +1,6 @@
 package com.example.csv.services;
 
+import com.example.csv.DTO.ProduitDTO;
 import com.example.csv.domain.Contrat;
 import com.example.csv.domain.GetAllType;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,4 +24,7 @@ public interface ContratService {
     boolean update(Contrat contrat);
     GetAllType<Contrat> getAllContrats(Integer pageNo, Integer pageSize, String sortBy, boolean asc);
      Long countContracts();
+
+    List<ProduitDTO> countContractsByProduit();
+
 }

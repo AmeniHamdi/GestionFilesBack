@@ -1,5 +1,6 @@
 package com.example.csv.controllers;
 
+import com.example.csv.DTO.ProduitDTO;
 import com.example.csv.domain.*;
 import com.example.csv.helper.CSVHelper;
 import com.example.csv.services.CSVService;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin("*")
 @RestController
@@ -97,5 +99,8 @@ public class ContratController {
         return fileService.countContracts();
     }
 
-
+    @GetMapping("/contractsbyproduit")
+    public List<ProduitDTO> countContractsByProduit() {
+        return fileService.countContractsByProduit();
+    }
 }

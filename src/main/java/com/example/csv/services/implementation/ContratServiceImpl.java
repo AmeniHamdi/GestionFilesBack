@@ -1,5 +1,6 @@
 package com.example.csv.services.implementation;
 
+import com.example.csv.DTO.ProduitDTO;
 import com.example.csv.domain.Contrat;
 import com.example.csv.domain.Dossier;
 import com.example.csv.domain.GetAllType;
@@ -13,16 +14,19 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Service
 @AllArgsConstructor
+
 public class ContratServiceImpl implements ContratService {
 
     @Autowired
@@ -89,9 +93,24 @@ public class ContratServiceImpl implements ContratService {
         result.setRows(pagedResult.getContent());
         return  result;
     }
+
     @Override
     public Long countContracts(){
        return contratRepo.count();
+    }
+
+    @Override
+    public List<ProduitDTO> countContractsByProduit() {
+        List<Object[]> results = contratRepo.countByProduit();
+        List<ProduitDTO> counts = new ArrayList<>();
+
+        for (Object[] result : results) {
+            String produit = (String) result[0];
+            Long count = (Long) result[1];
+            counts.add(new ProduitDTO(produit, count));
+        }
+
+        return counts;
     }
 
 
