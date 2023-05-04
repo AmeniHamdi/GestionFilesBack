@@ -123,11 +123,11 @@
 	</dependencies>
 <!-- Nexus -->
         <distributionManagement>
-		<repository>
-      			<id>deploymentRepo</id>
-        		<name>nexus-release</name>
-        		<url>http://192.168.33.10:8081/repository/maven-releases/</url>
-    		</repository>
+<!--		<repository>-->
+<!--      			<id>deploymentRepo</id>-->
+<!--        		<name>nexus-release</name>-->
+<!--        		<url>http://192.168.33.10:8081/repository/maven-releases/</url>-->
+<!--    		</repository>-->
                 <snapshotRepository>
                         <id>deploymentRepo</id>
 			<name>nexus-snapshot</name>
