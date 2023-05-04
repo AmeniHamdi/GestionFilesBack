@@ -40,7 +40,15 @@ import java.util.List;
 
         private boolean enabled;
 
-        @Override
+    public User(int i, String firstName, String lastName, String email, String password, UserRole role) {
+        this.id= i;
+        this.firstName=firstName;
+        this.lastName=lastName;
+        this.password=password;
+        this.role=role;
+    }
+
+    @Override
         @JsonIgnore
         public Collection<? extends GrantedAuthority> getAuthorities() {
             return List.of(new SimpleGrantedAuthority(role.getRole().toString()));

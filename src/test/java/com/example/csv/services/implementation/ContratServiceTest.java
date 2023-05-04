@@ -62,20 +62,10 @@ class ContratServiceTest {
                 "num_cp",
                 "raison_Social",
                 "id_Tiers",
-                "num_dc",
-                "num_sdc",
-                "num_cir",
                 "num_siren",
-                "ref_coll",
                 "code_produit",
-                "id_de_offre_comm",
                 "chef_de_file",
-                "num_ovi",
-                "num_rum",
-                "typeenregie",
-                "produit_comm",
                 "produit",
-                "phase",
                 "montant_pret");
         contratService.save(contrat);
 
@@ -94,7 +84,7 @@ class ContratServiceTest {
 
     @Test
     void testGetContrat() {
-        Contrat expectedContrat = new Contrat(31L,"dfydn","1","ztfop","amgqv","fmkzu","zqmyl","bfixm","yyvwp","vegzu","ixrrl","wmeoi","dcosp","wpinz","nliuy","impvq","uljpk","blcbp","poocm","yobnt");
+        Contrat expectedContrat = new Contrat(31L,"dfydn","1","ztfop","amgqv","fmkzu","zqmyl","bfixm","yyvwp","vegzu");
 
 
 
@@ -118,20 +108,10 @@ class ContratServiceTest {
                 "num_cp",
                 "raison_Social",
                 "id_Tiers",
-                "num_dc",
-                "num_sdc",
-                "num_cir",
                 "num_siren",
-                "ref_coll",
                 "code_produit",
-                "id_de_offre_comm",
                 "chef_de_file",
-                "num_ovi",
-                "num_rum",
-                "typeenregie",
-                "produit_comm",
                 "produit",
-                "phase",
                 "montant_pret");
 
         //then
@@ -150,20 +130,10 @@ class ContratServiceTest {
                 "num_cp",
                 "raison_Social",
                 "id_Tiers",
-                "num_dc",
-                "num_sdc",
-                "num_cir",
                 "num_siren",
-                "ref_coll",
                 "code_produit",
-                "id_de_offre_comm",
                 "chef_de_file",
-                "num_ovi",
-                "num_rum",
-                "typeenregie",
-                "produit_comm",
                 "produit",
-                "phase",
                 "montant_pret");
         contratService.delete(contrat.getId());
 
@@ -178,7 +148,7 @@ class ContratServiceTest {
         // create a mock for the ContratRepository
 
              // create some test data
-        byte[] fileContent = "Num_dossierKPS,Num_CP,Raison_Social,Id_Tiers,Num_DC,Num_SDC,Num_CIR,Num_SIREN,Ref_Collaborative,Code_Produit,Identifiant_de_offre_comm,Chef_de_File,Num_OVI,Num_RUM,TypeEnergie,Produit_Comm,Produit,Phase,Montant_pret\ndfydn,1,ztfop,amgqv,fmkzu,zqmyl,bfixm,yyvwp,vegzu,ixrrl,wmeoi,dcosp,wpinz,nliuy,impvq,uljpk,blcbp,poocm,yobnt\ndfydn,1,ztfop,amgqv,fmkzu,zqmyl,bfixm,yyvwp,vegzu,ixrrl,wmeoi,dcosp,wpinz,nliuy,impvq,uljpk,blcbp,poocm,yobnt\n".getBytes();
+        byte[] fileContent = "Num_dossierKPS,Num_CP,Raison_Social,Id_Tiers,Num_SIREN,Code_Produit,Chef_de_File,Produit,Montant_pret\ndfydn,1,ztfop,amgqv,fmkzu,zqmyl,bfixm,yyvwp,vegzu\ndfydn,1,ztfop,amgqv,fmkzu,zqmyl,bfixm,yyvwp,vegzu\n".getBytes();
         MockMultipartFile file = new MockMultipartFile("file.csv", "file.csv", "text/csv", fileContent);
 
         // create a list of expected Contrat objects
@@ -193,17 +163,8 @@ class ContratServiceTest {
                 "zqmyl",
                 "bfixm",
                 "yyvwp",
-                "vegzu",
-                "ixrrl",
-                "wmeoi",
-                "dcosp",
-                "wpinz",
-                "nliuy",
-                "impvq",
-                "uljpk",
-                "blcbp",
-                "poocm",
-                "yobnt"));
+                "vegzu"
+                ));
         expectedContrats.add( new Contrat(
                 null,
                 "dfydn",
@@ -214,17 +175,8 @@ class ContratServiceTest {
                 "zqmyl",
                 "bfixm",
                 "yyvwp",
-                "vegzu",
-                "ixrrl",
-                "wmeoi",
-                "dcosp",
-                "wpinz",
-                "nliuy",
-                "impvq",
-                "uljpk",
-                "blcbp",
-                "poocm",
-                "yobnt"));
+                "vegzu"
+                ));
 
         // create a mock CSVHelper that returns the expected Contrat objects
         CSVHelper csvHelper = Mockito.mock(CSVHelper.class);
@@ -262,8 +214,8 @@ class ContratServiceTest {
     void testGetAllContrat() {
         List<Contrat> expectedContrats = new ArrayList<>();
         // create some test data
-        Contrat contrat1 = new Contrat(31L,"dfydn","1","ztfop","amgqv","fmkzu","zqmyl","bfixm","yyvwp","vegzu","ixrrl","wmeoi","dcosp","wpinz","nliuy","impvq","uljpk","blcbp","poocm","yobnt");
-        Contrat contrat2= new Contrat(32L,"dfydn","1","ztfop","amgqv","fmkzu","zqmyl","bfixm","yyvwp","vegzu","ixrrl","wmeoi","dcosp","wpinz","nliuy","impvq","uljpk","blcbp","poocm","yobnt");
+        Contrat contrat1 = new Contrat(31L,"dfydn","1","ztfop","amgqv","fmkzu","zqmyl","bfixm","yyvwp","vegzu");
+        Contrat contrat2= new Contrat(32L,"dfydn","1","ztfop","amgqv","fmkzu","zqmyl","bfixm","yyvwp","vegzu");
 
         expectedContrats.add(contrat1);
         expectedContrats.add(contrat2);

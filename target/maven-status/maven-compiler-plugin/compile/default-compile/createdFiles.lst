@@ -6,6 +6,7 @@ com\example\csv\auth\AuthenticationResponse.class
 com\example\csv\repositories\UserRoleRepository.class
 com\example\csv\config\MapDeserializer.class
 com\example\csv\domain\Tiers.class
+com\example\csv\DTO\ProduitDTO.class
 com\example\csv\config\KafkaProducerConfig.class
 com\example\csv\auth\AuthenticationService.class
 com\example\csv\controllers\CSVController.class

@@ -1,6 +1,6 @@
 package com.example.csv.controllers;
 
-import com.example.csv.DTO.DossierDTO;
+
 import com.example.csv.domain.*;
 import com.example.csv.helper.CSVHelper;
 import com.example.csv.services.DossierService;
@@ -20,6 +20,7 @@ import java.util.List;
 @RequestMapping("/api/csv/dossier")
 @AllArgsConstructor
 @Slf4j
+
 public class DossierController {
 
     @Autowired
@@ -49,7 +50,6 @@ public class DossierController {
     @CrossOrigin
     @PostMapping
     public Dossier save(@RequestBody Dossier dossier){
-
         return fileService.save(dossier);
     }
 
@@ -57,9 +57,8 @@ public class DossierController {
     @GetMapping("/{id}")
     public ResponseEntity<Dossier> getDossier(@PathVariable("id") Long id){
         Dossier dossier = fileService.getDossier(id);
-        if(dossier.equals(null)){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
+        if (dossier == null) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);}
         return new ResponseEntity<>(dossier, HttpStatus.OK);
     }
     @CrossOrigin
@@ -91,8 +90,7 @@ public class DossierController {
             @RequestParam(defaultValue = "5") int size,
             @RequestParam(defaultValue = "id") String sortBy,
             @RequestParam(defaultValue = "true") boolean asc
-    )
-    {
+    ) {
         GetAllType<Dossier> data = fileService.getAllDossiers(page, size, sortBy, asc);
         return new ResponseEntity<>(data, HttpStatus.OK);
     }

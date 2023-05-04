@@ -26,4 +26,7 @@ public class Dossier {
     private String montant_du_pres;
 
 
+    public Dossier(Long id) {
+        this.id=id;
+    }
 }
