@@ -29,7 +29,7 @@ services:
     stdin_open: true
     tty: true
   frontend:
-    image: amenih/talancdz
+    image: imenfarah/frontrepo
     restart: unless-stopped
     ports:
       - 2020:80
