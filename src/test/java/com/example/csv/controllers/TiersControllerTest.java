@@ -1,12 +1,16 @@
 package com.example.csv.controllers;
 
+import com.example.csv.domain.Dossier;
 import com.example.csv.domain.ResponseMessage;
 import com.example.csv.domain.Tiers;
 import com.example.csv.services.TiersService;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,19 +18,25 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.multipart.MultipartFile;
 
 
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -37,7 +47,7 @@ public class TiersControllerTest {
 
     private static final Logger logger = LoggerFactory.getLogger(TiersControllerTest.class);
 
-
+    ObjectMapper objectMapper = new ObjectMapper();
     private TiersController controller;
 
     @MockBean
@@ -57,6 +67,51 @@ public class TiersControllerTest {
 
 
 
+
+
+    @Test
+    public void testSearchTiers() throws Exception {
+        // create some test data
+        Tiers tiers1 = new Tiers();
+        tiers1.setNumero("1");
+        tiers1.setNom("John Doe");
+        tiers1.setSiren("123456789");
+        tiers1.setRef_mandat("123");
+
+        Tiers tiers2 = new Tiers();
+        tiers2.setNumero("2");
+        tiers2.setNom("Jane Smith");
+        tiers2.setSiren("987654321");
+        tiers2.setRef_mandat("123456");
+        List<Tiers> tiersList = Arrays.asList(tiers1, tiers2);
+
+        // mock the service method call
+        when(service.searchTiers(anyString(), anyString(), anyString(), anyString())).thenReturn(tiersList);
+
+        // perform the test request
+        mvc.perform(get("/api/csv/tier/Search")
+                        .param("numero", "1")
+                        .param("nom", "John")
+                        .param("siren", "123456789")
+                        .param("refMandat","123")
+
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+//                .andExpect(jsonPath("$[0].numero").value("1"))
+//                .andExpect(jsonPath("$[0].nom").value("John Doe"))
+//                .andExpect(jsonPath("$[0].siren").value("123456789"))
+//
+//                .andExpect(jsonPath("$[0].refMandat").value("123"))
+//
+//                .andExpect(jsonPath("$[1].numero").value("2"))
+//                .andExpect(jsonPath("$[1].nom").value("Jane Smith"))
+//                .andExpect(jsonPath("$[1].siren").value("987654321"))
+//                .andExpect(jsonPath("$[0].refMandat").value("123456"));
+
+
+        // verify the service method was called once with the correct parameters
+         verify(service, times(1)).searchTiers(eq("1"), eq("John"), eq("123456789"), eq("123"));
+    }
     @Test
     void uploadFileSuccesfully() throws Exception {
 
@@ -126,44 +181,33 @@ public class TiersControllerTest {
         logger.info("Resultat : " + val);
     }
 
-//    @Test
-//    void save() throws Exception {
-//        Tiers t = new Tiers(1L, "1", "Iheb", "iheb.cherif99@gmail.com", "cherif");
-//        ObjectMapper mapper = new ObjectMapper();
-//        String body = mapper.writeValueAsString(t);
-//        MvcResult result = mvc.perform(post("/api/csv/tier").content(body).contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isCreated())
-//                .andReturn();
-//
-//        String actualResult = result.getResponse().getContentAsString();
-//        logger.info(body);
-//        logger.info(actualResult);
-//        assertEquals(body,actualResult);
-//    }
-//     @Test
-//    void getAllTiers() throws Exception {
-//        Tiers t1 = new Tiers(1L,"1","iheb",".@gmail.com","cherif");
-//        Tiers t2 = new Tiers(2L,"2","ahmed",".@gmail.com","tounsi");
-//        List<Tiers> content = new ArrayList<>();
-//        content.add(t1);
-//        content.add(t2);
-//        Page<Tiers> page = new PageImpl<>(content, PageRequest.of(0, 2),2);
-//
-//        GetAllType<Tiers> results= new GetAllType<>();
-//        when(service.getAllTiers(0,2,null,true,null)).thenReturn(results);
-//
-//        ResponseEntity<GetAllType<Tiers>> result = controller.getAllTiers(0,2,null,true,null);
-//
-//        List<Tiers> actualResult = result.getBody().getRows();
-//        assertEquals(actualResult,page.getContent());
-//        logger.info(String.valueOf(actualResult));
-//        logger.info(String.valueOf(result.getStatusCode()));
-//
-//        assertEquals(HttpStatus.OK,result.getStatusCode());
-//
-//
-//    }
+    @Test
+    void save() throws Exception {
 
+        // Create a new dossier object
+        Tiers tier = new Tiers();
+        tier.setNom("new tier");
+
+        // Set up a mock file service that returns the same dossier object
+        when(service.save(any(Tiers.class))).thenReturn(tier);
+
+        // Send a POST request to the endpoint with the dossier object as the request body
+        mvc.perform(post("/api/csv/tier")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(tier)))
+                .andExpect(status().isOk());
+//                    .andExpect(jsonPath("$.name", is(dossier.getDossier_DC()))); // Check that the response contains the same dossier object
+
+        // Verify that the fileService.save() method was called with the dossier object
+        verify(service).save(eq(tier));
+    }
+
+    @Test
+    void getAllTiers() throws Exception {
+
+        mvc.perform(get("/api/csv/tier")).andExpect(status().isOk());
+
+    }
     @Test
     void getTiers() {
         Tiers t1 = new Tiers(1L,"1","iheb",".@gmail.com","cherif");
@@ -176,6 +220,44 @@ public class TiersControllerTest {
         String actualStatus = result.getStatusCode().toString();
         logger.info(actualStatus);
         assertEquals(HttpStatus.OK,result.getStatusCode());
+    }
+    @Test
+    void getTier_noContent() throws Exception {
+        Long TierId = 3L;
+
+        // Set up a mock file service that returns null for the specified dossier ID
+        when(service.getTiers(TierId)).thenReturn(null);
+
+        // Send a GET request to the endpoint with the specified dossier ID
+        mvc.perform(get("/api/csv/tier/{id}", TierId))
+                .andExpect(status().isNoContent())
+                .andExpect(content().string(""));
+    }
+
+    @Test
+    public void testUpdateTier() {
+        Tiers tier = new Tiers();
+        tier.setId(1L);
+        tier.setNom("new tier");
+
+        Mockito.when(service.update(tier)).thenReturn(true);
+
+        ResponseEntity<Void> response = controller.updateTiers(tier);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    public void testUpdateTierNotFound() {
+        Tiers tier = new Tiers();
+        tier.setId(1L);
+        tier.setNom("new tier");
+
+        Mockito.when(service.update(tier)).thenReturn(false);
+
+        ResponseEntity<Void> response = controller.updateTiers(tier);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
 //    @Test
@@ -228,6 +310,10 @@ public class TiersControllerTest {
         ResponseEntity<Void> result = controller.deleteTiers(t1.getId());
         assertEquals(HttpStatus.NO_CONTENT,result.getStatusCode());
 
+    }
+    @Test
+    void getTiersCount() throws Exception {
+        mvc.perform(get("/api/csv/tier/count")).andExpect(status().isOk());
     }
 
 //    @Test

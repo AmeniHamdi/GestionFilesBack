@@ -94,7 +94,7 @@ public class TiersController {
     @GetMapping("/{id}")
     public ResponseEntity<Tiers> getTiers(@PathVariable("id")Long id){
         Tiers tiers = fileService.getTiers(id);
-        if(tiers.equals(null)){
+        if(tiers == null){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(tiers, HttpStatus.OK);

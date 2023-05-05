@@ -192,9 +192,6 @@ class DossierControllerTest {
         // Send a GET request to the endpoint with the specified dossier ID
 
     }
-//    @Test
-//    void updateDossier() {
-//    }
 
     @Test
     void getAllDossiers() throws Exception {
