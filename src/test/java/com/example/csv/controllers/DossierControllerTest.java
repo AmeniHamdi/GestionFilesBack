@@ -55,10 +55,6 @@ class DossierControllerTest {
     @Autowired
     DossierRepository dossierRepository;
 
-    @BeforeEach
-    public void setUp() {
-
-    }
 
     @Autowired
     private DossierController dossierController;

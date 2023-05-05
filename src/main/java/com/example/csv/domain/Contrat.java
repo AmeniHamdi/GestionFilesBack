@@ -38,4 +38,7 @@ public class Contrat {
 
     private String Montant_pret;
 
+    public Contrat(Long id) {
+        this.id = id ;
+    }
 }
