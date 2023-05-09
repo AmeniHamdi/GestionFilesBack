@@ -35,7 +35,7 @@ public class Initialization  {
 
     @PostConstruct
     private void init() {
-        /*
+
         Session session = sessionFactory.openSession();
 
         session.beginTransaction();
@@ -71,6 +71,6 @@ public class Initialization  {
         }
         session.getTransaction().commit();
         session.close();
-    */
+
     }
 }
