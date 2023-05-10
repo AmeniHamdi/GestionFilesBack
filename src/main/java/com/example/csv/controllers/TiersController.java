@@ -1,5 +1,7 @@
 package com.example.csv.controllers;
 
+import com.example.csv.DTO.NumeroDTO;
+import com.example.csv.DTO.ProduitDTO;
 import com.example.csv.domain.Dossier;
 import com.example.csv.domain.GetAllType;
 import com.example.csv.domain.ResponseMessage;
@@ -135,6 +137,12 @@ public class TiersController {
     public Long getTiersCount() {
         return fileService.countTiers();
     }
+
+    @GetMapping("/tiersbynumero")
+    public List<NumeroDTO> countTiersByNumero() {
+        return fileService.countTiersByNumero();
+    }
+
 
 }
 

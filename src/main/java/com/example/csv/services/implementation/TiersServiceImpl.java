@@ -1,5 +1,7 @@
 package com.example.csv.services.implementation;
 
+import com.example.csv.DTO.NumeroDTO;
+import com.example.csv.DTO.ProduitDTO;
 import com.example.csv.domain.GetAllType;
 import com.example.csv.domain.Tiers;
 import com.example.csv.helper.CSVHelper;
@@ -135,6 +137,19 @@ public class TiersServiceImpl implements TiersService {
     @Override
     public Long countTiers(){
         return tiersRepo.count();
+    }
+
+   public List<NumeroDTO> countTiersByNumero(){
+       List<Object[]> results = tiersRepo.countByNumero();
+       List<NumeroDTO> counts = new ArrayList<>();
+
+       for (Object[] result : results) {
+           String Numero = (String) result[0];
+           Long count = (Long) result[1];
+           counts.add(new NumeroDTO(Numero, count));
+       }
+
+       return counts;
     }
 
 

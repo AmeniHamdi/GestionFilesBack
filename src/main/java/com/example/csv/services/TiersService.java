@@ -1,5 +1,7 @@
 package com.example.csv.services;
 
+import com.example.csv.DTO.NumeroDTO;
+import com.example.csv.DTO.ProduitDTO;
 import com.example.csv.domain.GetAllType;
 import com.example.csv.domain.Tiers;
 import org.springframework.data.domain.Sort;
@@ -31,4 +33,6 @@ public interface TiersService {
 
 
     Long countTiers();
+    List<NumeroDTO> countTiersByNumero();
+
 }
