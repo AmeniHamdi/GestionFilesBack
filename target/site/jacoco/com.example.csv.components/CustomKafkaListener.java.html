@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CustomKafkaListener.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">csv</a> &gt; <a href="index.source.html" class="el_package">com.example.csv.components</a> &gt; <span class="el_source">CustomKafkaListener.java</span></div><h1>CustomKafkaListener.java</h1><pre class="source lang-java linenums">package com.example.csv.components;
+
+import com.example.csv.services.ContratService;
+import com.example.csv.services.DossierService;
+import com.example.csv.services.TiersService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageHeaders;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Component;
+
+import java.util.*;
+
+import static org.springframework.util.SerializationUtils.serialize;
+
+@Component
+<span class="fc" id="L23">public class CustomKafkaListener {</span>
+
+    @Autowired
+    private SimpMessagingTemplate simpMessagingTemplate;
+
+    @Autowired
+    TiersService tiersService;
+
+    @Autowired
+    DossierService dossierService;
+
+    @Autowired
+    ContratService contratService;
+
+
+    @MessageMapping(&quot;/kafka/response&quot;)
+    public void sendSpecific(
+            @Payload Map msg) throws Exception {
+<span class="nc" id="L41">        Message&lt;byte[]&gt; message = new Message&lt;&gt;() {</span>
+            @Override
+            public byte[] getPayload() {
+                try {
+<span class="nc" id="L45">                    return new ObjectMapper().writeValueAsString(msg).getBytes();</span>
+<span class="nc" id="L46">                } catch (JsonProcessingException e) {</span>
+<span class="nc" id="L47">                    throw new RuntimeException(e);</span>
+                }
+            }
+
+            @Override
+            public MessageHeaders getHeaders() {
+<span class="nc" id="L53">                return null;</span>
+            }
+        };
+<span class="nc" id="L56">        simpMessagingTemplate.send( &quot;/kafka/response&quot;,  message);</span>
+<span class="nc" id="L57">    }</span>
+
+    @KafkaListener(topics = &quot;response&quot;, groupId = &quot;csv&quot;)
+    public void listenGroupCSV(Map message) {
+
+        try {
+<span class="nc" id="L63">            this.sendSpecific(message);</span>
+<span class="nc" id="L64">        } catch (Exception e) {</span>
+<span class="nc" id="L65">            throw new RuntimeException(e);</span>
+<span class="nc" id="L66">        }</span>
+
+<span class="nc" id="L68">        String type = (String) message.get(&quot;type&quot;);</span>
+<span class="nc" id="L69">        Map&lt;String, String&gt; content = (Map&lt;String, String&gt;) message.get(&quot;content&quot;);</span>
+
+<span class="nc bnc" id="L71" title="All 4 branches missed.">        switch (type) {</span>
+<span class="nc" id="L72">            case &quot;tiers&quot; -&gt; tiersService.saveResultsFromOcr(content);</span>
+<span class="nc" id="L73">            case &quot;dossier&quot; -&gt; dossierService.saveResultsFromOcr(content);</span>
+<span class="nc" id="L74">            case &quot;contrat&quot; -&gt; contratService.saveResultsFromOcr(content);</span>
+        }
+
+<span class="nc" id="L77">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

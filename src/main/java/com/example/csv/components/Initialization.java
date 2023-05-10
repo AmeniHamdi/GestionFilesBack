@@ -40,16 +40,16 @@ public class Initialization  {
 
         session.beginTransaction();
         // Create user roles if none is there
+        System.out.println("count:  "+ (userRoleRepo.count() == 0));
         if (userRoleRepo.count() == 0) {
-            System.out.println("Inserting user roles");
-            int id = 0;
+            System.out.println("Inserting user roles"+Role.values());
             for (Role roleName : Role.values()) {
                 UserRole userRole = new UserRole();
-                userRole.setId(id);
                 userRole.setRole(roleName);
-                session.save(userRole);
-                id++;
+                userRoleRepo.save(userRole);
             }
+
+
         }
 
         // Create admin if it does not exist

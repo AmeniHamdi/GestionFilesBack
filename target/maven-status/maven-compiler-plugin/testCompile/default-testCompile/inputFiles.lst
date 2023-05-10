@@ -1,6 +1,7 @@
-C:\Users\Imen\IdeaProjects\Back\GestionFilesBack\src\test\java\com\example\csv\services\implementation\AdminServiceTest.java
-C:\Users\Imen\IdeaProjects\Back\GestionFilesBack\src\test\java\com\example\csv\CsvApplicationTests.java
-C:\Users\Imen\IdeaProjects\Back\GestionFilesBack\src\test\java\com\example\csv\services\implementation\DossierServiceImplTest.java
-C:\Users\Imen\IdeaProjects\Back\GestionFilesBack\src\test\java\com\example\csv\services\implementation\TiersServiceImplTest.java
-C:\Users\Imen\IdeaProjects\Back\GestionFilesBack\src\test\java\com\example\csv\controllerTest\TiersControllerTest.java
-C:\Users\Imen\IdeaProjects\Back\GestionFilesBack\src\test\java\com\example\csv\services\implementation\ContratServiceTest.java
+C:\Users\imenm\IdeaProjects\gestionfichierback\GestionFilesBack\src\test\java\com\example\csv\CsvApplicationTests.java
+C:\Users\imenm\IdeaProjects\gestionfichierback\GestionFilesBack\src\test\java\com\example\csv\services\implementation\ContratServiceTest.java
+C:\Users\imenm\IdeaProjects\gestionfichierback\GestionFilesBack\src\test\java\com\example\csv\controllers\DossierControllerTest.java
+C:\Users\imenm\IdeaProjects\gestionfichierback\GestionFilesBack\src\test\java\com\example\csv\controllers\ContratControllerTest.java
+C:\Users\imenm\IdeaProjects\gestionfichierback\GestionFilesBack\src\test\java\com\example\csv\services\implementation\TiersServiceImplTest.java
+C:\Users\imenm\IdeaProjects\gestionfichierback\GestionFilesBack\src\test\java\com\example\csv\controllers\TiersControllerTest.java
+C:\Users\imenm\IdeaProjects\gestionfichierback\GestionFilesBack\src\test\java\com\example\csv\services\implementation\DossierServiceImplTest.java

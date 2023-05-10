@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ContratServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">csv</a> &gt; <a href="index.source.html" class="el_package">com.example.csv.services.implementation</a> &gt; <span class="el_source">ContratServiceImpl.java</span></div><h1>ContratServiceImpl.java</h1><pre class="source lang-java linenums">package com.example.csv.services.implementation;
+
+import com.example.csv.DTO.ProduitDTO;
+import com.example.csv.domain.Contrat;
+import com.example.csv.domain.Dossier;
+import com.example.csv.domain.GetAllType;
+import com.example.csv.domain.Tiers;
+import com.example.csv.helper.CSVHelper;
+import com.example.csv.repositories.ContratRepository;
+import com.example.csv.services.ContratService;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@Service
+<span class="fc" id="L28">@AllArgsConstructor</span>
+
+public class ContratServiceImpl implements ContratService {
+
+    @Autowired
+    private final ContratRepository contratRepo;
+
+
+    @Override
+    public Contrat save(Contrat contrat) {
+<span class="fc" id="L38">        contratRepo.save(contrat);</span>
+<span class="fc" id="L39">        return contrat;</span>
+    }
+
+    @Override
+    public void saveResultsFromOcr(Map&lt;String, String&gt; data) {
+<span class="nc" id="L44">        Contrat contrat = CSVHelper.ocrToContrats(data);</span>
+<span class="nc" id="L45">        contratRepo.save(contrat);</span>
+<span class="nc" id="L46">    }</span>
+
+    @Override
+    public void saveFile(MultipartFile file) {
+
+        try {
+<span class="fc" id="L52">            List&lt;Contrat&gt; contrats = CSVHelper.csvToContrats(file.getInputStream());</span>
+<span class="fc" id="L53">            contratRepo.saveAll(contrats);</span>
+
+
+<span class="fc" id="L56">        } catch (IOException e) {</span>
+<span class="fc" id="L57">            throw new RuntimeException(e);</span>
+<span class="fc" id="L58">        }</span>
+<span class="fc" id="L59">    }</span>
+        public List&lt;Contrat&gt; getAllContrat() {
+<span class="fc" id="L61">        return contratRepo.findAll();</span>
+    }
+
+    @Override
+    public Contrat getContrat(Long id) {
+<span class="fc" id="L66">        return contratRepo.findById(id).get();</span>
+    }
+
+    @Override
+    public void delete(Long id) {
+<span class="fc" id="L71">        contratRepo.deleteById(id);</span>
+<span class="fc" id="L72">    }</span>
+
+    @Override
+    public boolean update(Contrat updatedContrat) {
+       /* Contrat toUpdate = contratRepo.findById(updatedContrat.getId()).orElse(null);
+        if (toUpdate == null) { return false; }
+        // save the updated version*/
+<span class="fc" id="L79">        contratRepo.save(updatedContrat);</span>
+<span class="fc" id="L80">        return true;</span>
+    }
+
+    @Override
+    public GetAllType&lt;Contrat&gt; getAllContrats(Integer pageNo, Integer pageSize, String sortBy, boolean asc) {
+<span class="nc bnc" id="L85" title="All 2 branches missed.">        Sort.Direction direction = asc ? Sort.Direction.ASC : Sort.Direction.DESC;</span>
+<span class="nc" id="L86">        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));</span>
+<span class="nc" id="L87">        Long count = contratRepo.count();</span>
+
+<span class="nc" id="L89">        Page&lt;Contrat&gt; pagedResult = contratRepo.findAll(paging);</span>
+
+<span class="nc" id="L91">        GetAllType&lt;Contrat&gt;  result= new GetAllType&lt;&gt;();</span>
+<span class="nc" id="L92">        result.setCount(count);</span>
+<span class="nc" id="L93">        result.setRows(pagedResult.getContent());</span>
+<span class="nc" id="L94">        return  result;</span>
+    }
+
+    @Override
+    public Long countContracts(){
+<span class="nc" id="L99">       return contratRepo.count();</span>
+    }
+
+    @Override
+    public List&lt;ProduitDTO&gt; countContractsByProduit() {
+<span class="nc" id="L104">        List&lt;Object[]&gt; results = contratRepo.countByProduit();</span>
+<span class="nc" id="L105">        List&lt;ProduitDTO&gt; counts = new ArrayList&lt;&gt;();</span>
+
+<span class="nc bnc" id="L107" title="All 2 branches missed.">        for (Object[] result : results) {</span>
+<span class="nc" id="L108">            String produit = (String) result[0];</span>
+<span class="nc" id="L109">            Long count = (Long) result[1];</span>
+<span class="nc" id="L110">            counts.add(new ProduitDTO(produit, count));</span>
+<span class="nc" id="L111">        }</span>
+
+<span class="nc" id="L113">        return counts;</span>
+    }
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

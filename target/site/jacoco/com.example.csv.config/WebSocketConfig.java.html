@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WebSocketConfig.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">csv</a> &gt; <a href="index.source.html" class="el_package">com.example.csv.config</a> &gt; <span class="el_source">WebSocketConfig.java</span></div><h1>WebSocketConfig.java</h1><pre class="source lang-java linenums">package com.example.csv.config;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.simp.SimpMessageType;
+import org.springframework.messaging.simp.config.ChannelRegistration;
+import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.messaging.simp.stomp.StompCommand;
+import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
+import org.springframework.messaging.support.ChannelInterceptor;
+import org.springframework.messaging.support.MessageBuilder;
+import org.springframework.messaging.support.MessageHeaderAccessor;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.web.messaging.MessageSecurityMetadataSourceRegistry;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
+import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
+import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
+import org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean;
+import org.springframework.core.Ordered;
+
+@Configuration
+@EnableWebSocketMessageBroker
+@EnableScheduling
+@Order(Ordered.HIGHEST_PRECEDENCE + 99)
+
+<span class="fc" id="L33">public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {</span>
+
+    @Autowired
+    private JwtService jwtTokenUtil;
+
+    @Autowired
+    private UserDetailsService userDetailService;
+
+    @Override
+    public void registerStompEndpoints(StompEndpointRegistry registry) {
+<span class="nc" id="L43">        registry</span>
+<span class="nc" id="L44">                .addEndpoint(&quot;/kafka&quot;)</span>
+<span class="nc" id="L45">                .setAllowedOrigins(&quot;http://localhost:4200&quot;)</span>
+<span class="nc" id="L46">                .withSockJS();</span>
+<span class="nc" id="L47">    }</span>
+
+    /*@Bean
+    public ServletServerContainerFactoryBean createWebSocketContainer() {
+        ServletServerContainerFactoryBean container = new ServletServerContainerFactoryBean();
+        container.setMaxTextMessageBufferSize(32000);
+        container.setMaxBinaryMessageBufferSize(32000);
+        return container;
+    } */
+
+    @Override
+    public void configureClientInboundChannel(ChannelRegistration registration) {
+<span class="fc" id="L59">        registration.interceptors(new ChannelInterceptor() {</span>
+
+            @Override
+            public Message&lt;?&gt; preSend(Message&lt;?&gt; message, MessageChannel channel) throws IllegalArgumentException {
+<span class="nc" id="L63">                StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">                if (StompCommand.CONNECT.equals(accessor.getCommand())) {</span>
+<span class="nc" id="L65">                    String jwtToken = accessor.getNativeHeader(&quot;token&quot;).get(0);</span>
+<span class="nc" id="L66">                    String username = &quot;&quot;;</span>
+                    try {
+<span class="nc" id="L68">                        username = jwtTokenUtil.extractUsername(jwtToken);</span>
+<span class="nc" id="L69">                    } catch (Exception e) {</span>
+<span class="nc" id="L70">                        System.err.println(&quot;username &quot; + jwtTokenUtil + &quot; noww error &quot; + e.getMessage() + &quot; &quot; + jwtToken);</span>
+<span class="nc" id="L71">                        throw e;</span>
+<span class="nc" id="L72">                    }</span>
+<span class="nc" id="L73">                    System.err.println(username);</span>
+
+<span class="nc" id="L75">                    UserDetails userDetails = null;</span>
+                    try {
+<span class="nc" id="L77">                        userDetails = userDetailService.loadUserByUsername(username);</span>
+<span class="nc" id="L78">                    } catch (Exception e) {</span>
+<span class="nc" id="L79">                        System.err.println(e.getMessage());</span>
+<span class="nc" id="L80">                        throw e;</span>
+<span class="nc" id="L81">                    }</span>
+
+                }
+<span class="nc" id="L84">                return message;</span>
+            }
+        });
+<span class="fc" id="L87">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

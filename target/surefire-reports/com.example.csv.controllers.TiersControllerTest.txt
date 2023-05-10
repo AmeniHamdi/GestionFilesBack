@@ -1,0 +1,69 @@
+-------------------------------------------------------------------------------
+Test set: com.example.csv.controllers.TiersControllerTest
+-------------------------------------------------------------------------------
+Tests run: 13, Failures: 0, Errors: 13, Skipped: 0, Time elapsed: 9.819 s <<< FAILURE! - in com.example.csv.controllers.TiersControllerTest
+deleteTiersFailed  Time elapsed: 0 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'initialization': Invocation of init method failed; nested exception is java.lang.NullPointerException: Cannot invoke "com.example.csv.domain.UserRole.getUser()" because the return value of "com.example.csv.repositories.UserRoleRepository.findUserRoleByRole(com.example.csv.domain.Role)" is null
+Caused by: java.lang.NullPointerException: Cannot invoke "com.example.csv.domain.UserRole.getUser()" because the return value of "com.example.csv.repositories.UserRoleRepository.findUserRoleByRole(com.example.csv.domain.Role)" is null
+
+testUpdateTierNotFound  Time elapsed: 0 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'initialization': Invocation of init method failed; nested exception is java.lang.NullPointerException: Cannot invoke "com.example.csv.domain.UserRole.getUser()" because the return value of "com.example.csv.repositories.UserRoleRepository.findUserRoleByRole(com.example.csv.domain.Role)" is null
+Caused by: java.lang.NullPointerException: Cannot invoke "com.example.csv.domain.UserRole.getUser()" because the return value of "com.example.csv.repositories.UserRoleRepository.findUserRoleByRole(com.example.csv.domain.Role)" is null
+
+testSearchTiers  Time elapsed: 0 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'initialization': Invocation of init method failed; nested exception is java.lang.NullPointerException: Cannot invoke "com.example.csv.domain.UserRole.getUser()" because the return value of "com.example.csv.repositories.UserRoleRepository.findUserRoleByRole(com.example.csv.domain.Role)" is null
+Caused by: java.lang.NullPointerException: Cannot invoke "com.example.csv.domain.UserRole.getUser()" because the return value of "com.example.csv.repositories.UserRoleRepository.findUserRoleByRole(com.example.csv.domain.Role)" is null
+
+uploadFileWrongFormat  Time elapsed: 0 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'initialization': Invocation of init method failed; nested exception is java.lang.NullPointerException: Cannot invoke "com.example.csv.domain.UserRole.getUser()" because the return value of "com.example.csv.repositories.UserRoleRepository.findUserRoleByRole(com.example.csv.domain.Role)" is null
+Caused by: java.lang.NullPointerException: Cannot invoke "com.example.csv.domain.UserRole.getUser()" because the return value of "com.example.csv.repositories.UserRoleRepository.findUserRoleByRole(com.example.csv.domain.Role)" is null
+
+uploadFileSuccesfully  Time elapsed: 0 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'initialization': Invocation of init method failed; nested exception is java.lang.NullPointerException: Cannot invoke "com.example.csv.domain.UserRole.getUser()" because the return value of "com.example.csv.repositories.UserRoleRepository.findUserRoleByRole(com.example.csv.domain.Role)" is null
+Caused by: java.lang.NullPointerException: Cannot invoke "com.example.csv.domain.UserRole.getUser()" because the return value of "com.example.csv.repositories.UserRoleRepository.findUserRoleByRole(com.example.csv.domain.Role)" is null
+
+deleteTiers  Time elapsed: 0 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'initialization': Invocation of init method failed; nested exception is java.lang.NullPointerException: Cannot invoke "com.example.csv.domain.UserRole.getUser()" because the return value of "com.example.csv.repositories.UserRoleRepository.findUserRoleByRole(com.example.csv.domain.Role)" is null
+Caused by: java.lang.NullPointerException: Cannot invoke "com.example.csv.domain.UserRole.getUser()" because the return value of "com.example.csv.repositories.UserRoleRepository.findUserRoleByRole(com.example.csv.domain.Role)" is null
+
+getTiersCount  Time elapsed: 0 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'initialization': Invocation of init method failed; nested exception is java.lang.NullPointerException: Cannot invoke "com.example.csv.domain.UserRole.getUser()" because the return value of "com.example.csv.repositories.UserRoleRepository.findUserRoleByRole(com.example.csv.domain.Role)" is null
+Caused by: java.lang.NullPointerException: Cannot invoke "com.example.csv.domain.UserRole.getUser()" because the return value of "com.example.csv.repositories.UserRoleRepository.findUserRoleByRole(com.example.csv.domain.Role)" is null
+
+testUpdateTier  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'initialization': Invocation of init method failed; nested exception is java.lang.NullPointerException: Cannot invoke "com.example.csv.domain.UserRole.getUser()" because the return value of "com.example.csv.repositories.UserRoleRepository.findUserRoleByRole(com.example.csv.domain.Role)" is null
+Caused by: java.lang.NullPointerException: Cannot invoke "com.example.csv.domain.UserRole.getUser()" because the return value of "com.example.csv.repositories.UserRoleRepository.findUserRoleByRole(com.example.csv.domain.Role)" is null
+
+getAllTiers  Time elapsed: 0 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'initialization': Invocation of init method failed; nested exception is java.lang.NullPointerException: Cannot invoke "com.example.csv.domain.UserRole.getUser()" because the return value of "com.example.csv.repositories.UserRoleRepository.findUserRoleByRole(com.example.csv.domain.Role)" is null
+Caused by: java.lang.NullPointerException: Cannot invoke "com.example.csv.domain.UserRole.getUser()" because the return value of "com.example.csv.repositories.UserRoleRepository.findUserRoleByRole(com.example.csv.domain.Role)" is null
+
+uploadFileFailed  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'initialization': Invocation of init method failed; nested exception is java.lang.NullPointerException: Cannot invoke "com.example.csv.domain.UserRole.getUser()" because the return value of "com.example.csv.repositories.UserRoleRepository.findUserRoleByRole(com.example.csv.domain.Role)" is null
+Caused by: java.lang.NullPointerException: Cannot invoke "com.example.csv.domain.UserRole.getUser()" because the return value of "com.example.csv.repositories.UserRoleRepository.findUserRoleByRole(com.example.csv.domain.Role)" is null
+
+save  Time elapsed: 0 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'initialization': Invocation of init method failed; nested exception is java.lang.NullPointerException: Cannot invoke "com.example.csv.domain.UserRole.getUser()" because the return value of "com.example.csv.repositories.UserRoleRepository.findUserRoleByRole(com.example.csv.domain.Role)" is null
+Caused by: java.lang.NullPointerException: Cannot invoke "com.example.csv.domain.UserRole.getUser()" because the return value of "com.example.csv.repositories.UserRoleRepository.findUserRoleByRole(com.example.csv.domain.Role)" is null
+
+getTier_noContent  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'initialization': Invocation of init method failed; nested exception is java.lang.NullPointerException: Cannot invoke "com.example.csv.domain.UserRole.getUser()" because the return value of "com.example.csv.repositories.UserRoleRepository.findUserRoleByRole(com.example.csv.domain.Role)" is null
+Caused by: java.lang.NullPointerException: Cannot invoke "com.example.csv.domain.UserRole.getUser()" because the return value of "com.example.csv.repositories.UserRoleRepository.findUserRoleByRole(com.example.csv.domain.Role)" is null
+
+getTiers  Time elapsed: 0 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'initialization': Invocation of init method failed; nested exception is java.lang.NullPointerException: Cannot invoke "com.example.csv.domain.UserRole.getUser()" because the return value of "com.example.csv.repositories.UserRoleRepository.findUserRoleByRole(com.example.csv.domain.Role)" is null
+Caused by: java.lang.NullPointerException: Cannot invoke "com.example.csv.domain.UserRole.getUser()" because the return value of "com.example.csv.repositories.UserRoleRepository.findUserRoleByRole(com.example.csv.domain.Role)" is null
+
