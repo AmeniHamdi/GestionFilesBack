@@ -1,12 +1,9 @@
 package com.example.csv.controllers;
 
 import com.example.csv.DTO.NumeroDTO;
-import com.example.csv.DTO.ProduitDTO;
-import com.example.csv.domain.Dossier;
 import com.example.csv.domain.GetAllType;
 import com.example.csv.domain.ResponseMessage;
 import com.example.csv.domain.Tiers;
-import com.example.csv.DTO.TiersDTO;
 import com.example.csv.helper.CSVHelper;
 import com.example.csv.services.TiersService;
 import lombok.AllArgsConstructor;
@@ -24,7 +21,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 
 @CrossOrigin("*")
 @RestController
@@ -138,10 +134,14 @@ public class TiersController {
         return fileService.countTiers();
     }
 
+    @CrossOrigin
     @GetMapping("/tiersbynumero")
     public List<NumeroDTO> countTiersByNumero() {
+        System.out.println("essaihhhhhhhhhhhhhhhhh");
         return fileService.countTiersByNumero();
     }
+
+
 
 
 }

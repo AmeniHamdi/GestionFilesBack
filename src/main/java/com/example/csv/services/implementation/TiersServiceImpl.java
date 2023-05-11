@@ -17,7 +17,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import java.io.IOException;
@@ -139,17 +138,19 @@ public class TiersServiceImpl implements TiersService {
         return tiersRepo.count();
     }
 
-   public List<NumeroDTO> countTiersByNumero(){
-       List<Object[]> results = tiersRepo.countByNumero();
-       List<NumeroDTO> counts = new ArrayList<>();
+    @Override
+    public List<NumeroDTO> countTiersByNumero() {
+        List<Object[]> results = tiersRepo.countByNumero();
+        List<NumeroDTO> counts = new ArrayList<>();
 
-       for (Object[] result : results) {
-           String Numero = (String) result[0];
-           Long count = (Long) result[1];
-           counts.add(new NumeroDTO(Numero, count));
-       }
+        for (Object[] result : results) {
+            System.out.println("ttttttttttt"+result);
+            String numero = (String) result[0];
+            Long count = (Long) result[1];
+            counts.add(new NumeroDTO(numero, count));
+        }
 
-       return counts;
+        return counts;
     }
 
 

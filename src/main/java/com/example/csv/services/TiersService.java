@@ -4,10 +4,8 @@ import com.example.csv.DTO.NumeroDTO;
 import com.example.csv.DTO.ProduitDTO;
 import com.example.csv.domain.GetAllType;
 import com.example.csv.domain.Tiers;
-import org.springframework.data.domain.Sort;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +31,7 @@ public interface TiersService {
 
 
     Long countTiers();
+
     List<NumeroDTO> countTiersByNumero();
 
 }

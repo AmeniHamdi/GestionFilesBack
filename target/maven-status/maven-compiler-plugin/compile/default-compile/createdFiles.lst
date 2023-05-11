@@ -1,5 +1,6 @@
 com\example\csv\config\WebSocketConfig$1.class
 com\example\csv\domain\UserRole.class
+com\example\csv\DTO\NumeroDTO.class
 com\example\csv\config\ApplicationConfig.class
 com\example\csv\controllers\DossierController.class
 com\example\csv\auth\AuthenticationResponse.class
