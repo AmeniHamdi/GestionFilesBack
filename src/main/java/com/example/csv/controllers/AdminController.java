@@ -50,4 +50,8 @@ public class AdminController {
     public ResponseEntity<Boolean> updateUser(@PathVariable("id") Integer userId){
         return new ResponseEntity<>(adminService.deleteUser(userId), HttpStatus.OK);
     }
+    @GetMapping("/users/count")
+    public long getUserCount() {
+        return adminService.countUsers();
+    }
 }

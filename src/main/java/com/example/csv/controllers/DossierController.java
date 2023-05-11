@@ -102,6 +102,10 @@ public class DossierController {
         List<Dossier> AllDossiers = fileService.findDossierWithSorting(field);
         return AllDossiers;
     }
+    @GetMapping("/count")
+    public Long getContractsCount() {
+        return fileService.countDossier();
+    }
 
 
 

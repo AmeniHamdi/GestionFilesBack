@@ -133,4 +133,10 @@ public class TiersServiceImpl implements TiersService {
         return  result;
     }
 
+    @Override
+    public Long countTiers() {
+        return tiersRepo.count();
+    }
+
+
 }

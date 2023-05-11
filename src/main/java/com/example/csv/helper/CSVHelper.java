@@ -9,9 +9,7 @@ import org.apache.commons.csv.CSVRecord;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CSVHelper {
 
@@ -74,7 +72,8 @@ public class CSVHelper {
                         csvRecord.get("Produit_Comm"),
                         csvRecord.get("Produit"),
                         csvRecord.get("Phase"),
-                        csvRecord.get("Montant_pret")
+                        csvRecord.get("Montant_pret"),
+                        new HashMap<>()
                 );
 
                 contrats.add(contrat);
@@ -93,7 +92,8 @@ public class CSVHelper {
             record.get("Numero"),
             record.get("ListSDC"),
             record.get("N_DPS"),
-            record.get("Montant_du_pres")
+            record.get("Montant_du_pres"),
+            new HashMap<>()
          );
     }
 
@@ -119,18 +119,27 @@ public class CSVHelper {
             record.get("Produit_Comm"),
             record.get("Produit"),
             record.get("Phase"),
-            record.get("Montant_pret")
+            record.get("Montant_pret"),
+                new HashMap<>()
         );
 
     }
 
     public static Tiers ocrToTiers(Map<String, String> record) {
+        String[] headers = {"Numero", "nom", "siren", "ref_mandat",};
+        Map<String, Object> rest = new HashMap<>();
+        for (Map.Entry<String, String> item : record.entrySet()) {
+            if (item.getKey() != null && !(Arrays.asList(headers).contains(item.getKey()))) {
+                rest.put(item.getKey(), item.getValue());
+            }
+        }
         return new Tiers(
              null,
             record.get("Numero"),
             record.get("nom"),
             record.get("siren"),
-            record.get("ref_mandat")
+            record.get("ref_mandat"),
+                rest
         );
     }
 
@@ -151,7 +160,8 @@ public class CSVHelper {
                         csvRecord.get("Numero"),
                         csvRecord.get("nom"),
                         csvRecord.get("siren"),
-                        csvRecord.get("ref_mandat")
+                        csvRecord.get("ref_mandat"),
+                        new HashMap<>()
                 );
 
                 tiers.add(tier);
@@ -180,7 +190,8 @@ public class CSVHelper {
                         csvRecord.get("Numero"),
                         csvRecord.get("ListSDC"),
                         csvRecord.get("N_DPS"),
-                        csvRecord.get("Montant_du_pres")
+                        csvRecord.get("Montant_du_pres"),
+                        new HashMap<>()
                 );
 
                 dossiers.add(dossier);

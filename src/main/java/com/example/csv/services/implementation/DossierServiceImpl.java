@@ -94,5 +94,10 @@ public class DossierServiceImpl implements DossierService {
         return dosRepo.findAll(Sort.by(Sort.Direction.ASC,field));
     }
 
+    @Override
+    public Long countDossier() {
+        return dosRepo.count();
+    }
+
 
 }

@@ -90,5 +90,11 @@ public class ContratServiceImpl implements ContratService {
         return  result;
     }
 
+    @Override
+    public Long countContracts() {
+        return contratRepo.count();
+
+    }
+
 
 }

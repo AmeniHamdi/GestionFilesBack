@@ -1,0 +1,255 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.5.6.12127",
+      "templateHash": "17016281914347876853"
+    }
+  },
+  "parameters": {
+    "name": {
+      "type": "string",
+      "defaultValue": "ameni-cdz",
+      "metadata": {
+        "description": "Name for the container group"
+      }
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]",
+      "metadata": {
+        "description": "Location for all resources."
+      }
+    },
+    "policyName": {
+      "type": "string",
+      "defaultValue": "[newGuid()]"
+    },
+    "roleAssignmentId": {
+      "type": "string",
+      "defaultValue": "[newGuid()]"
+    }
+  },
+  "variables": {
+    "aciRoleName": "[concat('aci-', parameters('name'), '-pull-role')]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Authorization/roleDefinitions",
+      "apiVersion": "2022-04-01",
+      "name": "[parameters('policyName')]",
+      "properties": {
+        "roleName": "[concat(variables('aciRoleName'), '-policy9')]",
+        "description": "Allows ACI to pull an image from a container registry.",
+        "type": "CustomRole",
+        "assignableScopes": [
+          "[resourceGroup().id]"
+        ],
+        "permissions": [
+          {
+            "actions": [
+              "Microsoft.ContainerInstance/containerGroups/read",
+              "Microsoft.ContainerInstance/containerGroups/write",
+              "Microsoft.ContainerRegistry/registries/read",
+              "Microsoft.ContainerRegistry/registries/pull/read"
+            ],
+            "notActions": [],
+            "dataActions": [],
+            "notDataActions": []
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
+      "name": "[variables('aciRoleName')]",
+      "apiVersion": "2018-11-30",
+      "location": "[resourceGroup().location]"
+    },
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2022-04-01",
+      "name": "[parameters('roleAssignmentId')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', variables('aciRoleName'))]",
+        "[resourceId('Microsoft.Authorization/roleDefinitions', parameters('policyName'))]"
+      ],
+      "properties": {
+        "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', parameters('policyName'))]",
+        "principalId": "[reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', variables('aciRoleName')), '2018-11-30').principalId]",
+        "scope": "[resourceGroup().id]"
+      }
+    },
+    {
+      "apiVersion": "2020-06-01",
+      "type": "Microsoft.Network/virtualNetworks",
+      "name": "myVnet1",
+      "location": "[parameters('location')]",
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "10.0.0.0/16"
+          ]
+        },
+        "subnets": [
+          {
+            "name": "mySubnet1",
+            "properties": {
+              "addressPrefix": "10.0.1.0/24",
+              "delegations": [
+                {
+                  "name": "aci-delegation",
+                  "properties": {
+                    "serviceName": "Microsoft.ContainerInstance/containerGroups"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Network/networkProfiles",
+      "apiVersion": "2021-02-01",
+      "name": "myNetworkProfile1",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/virtualNetworks', 'myVnet1')]"
+      ],
+      "properties": {
+        "containerNetworkInterfaceConfigurations": [
+          {
+            "name": "my-container-nic",
+            "properties": {
+              "ipConfigurations": [
+                {
+                  "name": "my-ip-config",
+                  "properties": {
+                    "subnet": {
+                      "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', 'myVnet1', 'mySubnet1')]"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.ContainerInstance/containerGroups",
+      "apiVersion": "2021-03-01",
+      "name": "[parameters('name')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/networkProfiles', 'myNetworkProfile1')]",
+        "[resourceId('Microsoft.Authorization/roleAssignments', parameters('roleAssignmentId'))]"
+      ],
+      "identity": {
+        "type": "UserAssigned",
+        "userAssignedIdentities": {
+          "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', variables('aciRoleName'))]": {}
+        }
+      },
+      "properties": {
+        "imageRegistryCredentials": [
+          {
+            "server":"amenicdz.azurecr.io",
+            "identity":"[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', variables('aciRoleName'))]",
+            "identityUrl": "[concat('https://', variables('aciRoleName'), '.identity.azure.net')]"
+          }
+        ],
+        "networkProfile": {
+          "id": "[resourceId('Microsoft.Network/networkProfiles',  'myNetworkProfile1')]"
+        },
+        "volumes": [
+          {
+            "name": "myvolume",
+            "azureFile": {
+              "shareName": "myshare",
+              "storageAccountName": "mystorageaccount",
+              "storageAccountKey": "mystorageaccountkey",
+              "readOnly": false
+            }
+          }
+        ],
+        "containers": [
+          {
+            "name": "cdz-mysql",
+            "properties": {
+              "image": "mysql",
+              "ports": [
+                {
+                  "port": "3306",
+                  "protocol": "TCP"
+                }
+              ],
+              "resources": {
+                "requests": {
+                  "cpu": 1,
+                  "memoryInGB": 0.5
+                }
+              },
+              "volumeMounts": [
+                {
+                  "name": "myvolume",
+                  "mountPath": "/var/lib/mysql"
+                }
+              ],
+              "environmentVariables": [
+                {
+                  "name": "MYSQL_ROOT_PASSWORD",
+                  "secureValue": "root"
+                },
+                {
+                  "name": "MYSQLDB_DATABASE",
+                  "value": "document"
+                }
+              ]
+            }
+          },
+          {
+            "name": "cdz-backend",
+            "properties": {
+              "image": "amenicdz.azurecr.io/amenih/talentcdz:v1",
+              "ports": [
+                {
+                  "port": "8087",
+                  "protocol": "TCP"
+                }
+              ],
+              "resources": {
+                "requests": {
+                  "cpu": 1,
+                  "memoryInGB": 0.5
+                }
+              },
+              "environmentVariables": [
+                {
+                  "name": "SPRING_APPLICATION_JSON",
+                  "value": "{
+                  'spring.datasource.url'  : 'jdbc:mysql://mysqldb:3306/document?useSSL=false&allowPublicKeyRetrieval=true',
+                  'spring.datasource.username' : 'root',
+                  'spring.jpa.properties.hibernate.dialect' : 'org.hibernate.dialect.MySQL5InnoDBDialect',
+                  'spring.jpa.hibernate.ddl-auto' : 'update'
+                }"
+                }
+              ]
+            }
+          }
+        ],
+        "osType": "Linux",
+        "restartPolicy": "OnFailure"
+      }
+    }
+  ],
+  "outputs": {
+    "containerIPv4Address": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.ContainerInstance/containerGroups', parameters('name'))).ipAddress.ip]"
+    }
+  }
+}

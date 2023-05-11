@@ -41,13 +41,12 @@ public class Initialization  {
         // Create user roles if none is there
         if (userRoleRepo.count() == 0) {
             System.out.println("Inserting user roles");
-            int id = 0;
+
             for (Role roleName : Role.values()) {
                 UserRole userRole = new UserRole();
-                userRole.setId(id);
                 userRole.setRole(roleName);
-                session.save(userRole);
-                id++;
+                userRoleRepo.save(userRole);
+
             }
         }
 

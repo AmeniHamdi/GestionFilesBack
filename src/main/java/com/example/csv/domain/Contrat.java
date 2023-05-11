@@ -1,5 +1,6 @@
 package com.example.csv.domain;
 
+import com.example.csv.config.HashMapConverter;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -8,10 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Map;
 
 @Entity
 @Data
@@ -43,4 +42,9 @@ public class Contrat {
     private String Phase;
     private String Montant_pret;
 
+    @Convert(converter = HashMapConverter.class)
+    private Map<String, Object> customAttributes;
+
+    public Contrat(Object o, String numDossier, String numCp, String raisonSocial, String idTiers, String numDc, String numSdc, String numCir, String numSiren, String refColl, String codeProduit, String idDeOffreComm, String chefDeFile, String numOvi, String numRum, String typeenregie, String produitComm, String produit, String phase, String montantPret) {
+    }
 }

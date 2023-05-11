@@ -85,4 +85,9 @@ public class AdminServiceImpl implements AdminService {
         userRepository.delete(user);
         return true;
     }
+
+    @Override
+    public long countUsers() {
+        return userRepository.count();
+    }
 }
