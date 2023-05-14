@@ -42,7 +42,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry
                 .addEndpoint("/kafka")
-                .setAllowedOrigins("http://localhost:4200")
+                .setAllowedOrigins("http://20.216.140.169/")
                 .withSockJS();
     }
 
