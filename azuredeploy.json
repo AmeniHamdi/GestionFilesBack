@@ -194,7 +194,7 @@
           {
             "name": "cdz-ocr",
             "properties": {
-              "image": "amenicdz.azurecr.io/amenih/cdzocr:v2",
+              "image": "amenicdz.azurecr.io/amenih/cdzocr:v4",
               "resources": {
                 "requests": {
                   "cpu": 0.5,
