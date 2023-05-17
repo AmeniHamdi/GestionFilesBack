@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,25 +59,13 @@ class ContratServiceTest {
 
         Contrat contrat = new Contrat(
                 null,
-                "num_dossier",
-                "num_cp",
-                "raison_Social",
-                "id_Tiers",
-                "num_dc",
-                "num_sdc",
-                "num_cir",
-                "num_siren",
-                "ref_coll",
-                "code_produit",
-                "id_de_offre_comm",
-                "chef_de_file",
-                "num_ovi",
-                "num_rum",
-                "typeenregie",
-                "produit_comm",
+                "numCP",
+                "idTiers",
+                "RaisonSocial",
+                "NumSiren",
                 "produit",
                 "phase",
-                "montant_pret");
+                new HashMap<>());
         contratService.save(contrat);
 
         ArgumentCaptor<Contrat> contratArgumentCaptor = ArgumentCaptor.forClass(Contrat.class);
@@ -94,7 +83,7 @@ class ContratServiceTest {
 
     @Test
     void testGetContrat() {
-        Contrat expectedContrat = new Contrat(31L,"dfydn","1","ztfop","amgqv","fmkzu","zqmyl","bfixm","yyvwp","vegzu","ixrrl","wmeoi","dcosp","wpinz","nliuy","impvq","uljpk","blcbp","poocm","yobnt");
+        Contrat expectedContrat = new Contrat(31L,"dfydn","1","ztfop","amgqv","fmkzu","zqmyl",new HashMap<>());
 
 
 
@@ -120,19 +109,7 @@ class ContratServiceTest {
                 "id_Tiers",
                 "num_dc",
                 "num_sdc",
-                "num_cir",
-                "num_siren",
-                "ref_coll",
-                "code_produit",
-                "id_de_offre_comm",
-                "chef_de_file",
-                "num_ovi",
-                "num_rum",
-                "typeenregie",
-                "produit_comm",
-                "produit",
-                "phase",
-                "montant_pret");
+                new HashMap<>());
 
         //then
        boolean result = contratService.update(contrat);
@@ -152,19 +129,7 @@ class ContratServiceTest {
                 "id_Tiers",
                 "num_dc",
                 "num_sdc",
-                "num_cir",
-                "num_siren",
-                "ref_coll",
-                "code_produit",
-                "id_de_offre_comm",
-                "chef_de_file",
-                "num_ovi",
-                "num_rum",
-                "typeenregie",
-                "produit_comm",
-                "produit",
-                "phase",
-                "montant_pret");
+                new HashMap<>());
         contratService.delete(contrat.getId());
 
         Mockito.verify(contratRepository).deleteById(contrat.getId());
@@ -191,19 +156,7 @@ class ContratServiceTest {
                 "amgqv",
                 "fmkzu",
                 "zqmyl",
-                "bfixm",
-                "yyvwp",
-                "vegzu",
-                "ixrrl",
-                "wmeoi",
-                "dcosp",
-                "wpinz",
-                "nliuy",
-                "impvq",
-                "uljpk",
-                "blcbp",
-                "poocm",
-                "yobnt"));
+                new HashMap<>()));
         expectedContrats.add( new Contrat(
                 null,
                 "dfydn",
@@ -212,19 +165,7 @@ class ContratServiceTest {
                 "amgqv",
                 "fmkzu",
                 "zqmyl",
-                "bfixm",
-                "yyvwp",
-                "vegzu",
-                "ixrrl",
-                "wmeoi",
-                "dcosp",
-                "wpinz",
-                "nliuy",
-                "impvq",
-                "uljpk",
-                "blcbp",
-                "poocm",
-                "yobnt"));
+                new HashMap<>()));
 
         // create a mock CSVHelper that returns the expected Contrat objects
         CSVHelper csvHelper = Mockito.mock(CSVHelper.class);
@@ -262,8 +203,8 @@ class ContratServiceTest {
     void testGetAllContrat() {
         List<Contrat> expectedContrats = new ArrayList<>();
         // create some test data
-        Contrat contrat1 = new Contrat(31L,"dfydn","1","ztfop","amgqv","fmkzu","zqmyl","bfixm","yyvwp","vegzu","ixrrl","wmeoi","dcosp","wpinz","nliuy","impvq","uljpk","blcbp","poocm","yobnt");
-        Contrat contrat2= new Contrat(32L,"dfydn","1","ztfop","amgqv","fmkzu","zqmyl","bfixm","yyvwp","vegzu","ixrrl","wmeoi","dcosp","wpinz","nliuy","impvq","uljpk","blcbp","poocm","yobnt");
+        Contrat contrat1 = new Contrat(31L,"dfydn","1","ztfop","amgqv","fmkzu","zqmyl",new HashMap<>());
+        Contrat contrat2= new Contrat(32L,"dfydn","1","ztfop","amgqv","fmkzu","zqmyl",new HashMap<>());
 
         expectedContrats.add(contrat1);
         expectedContrats.add(contrat2);

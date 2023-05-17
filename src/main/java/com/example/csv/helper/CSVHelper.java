@@ -54,25 +54,12 @@ public class CSVHelper {
             for (CSVRecord csvRecord : csvRecords) {
                 Contrat contrat = new Contrat(
                         null,
-                        csvRecord.get("Num_dossierKPS"),
-                        csvRecord.get("Num_CP"),
-                        csvRecord.get("Raison_Social"),
-                        csvRecord.get("Id_Tiers"),
-                        csvRecord.get("Num_DC"),
-                        csvRecord.get("Num_SDC"),
-                        csvRecord.get("Num_CIR"),
-                        csvRecord.get("Num_SIREN"),
-                        csvRecord.get("Ref_Collaborative"),
-                        csvRecord.get("Code_Produit"),
-                        csvRecord.get("Identifiant_de_offre_comm"),
-                        csvRecord.get("Chef_de_File"),
-                        csvRecord.get("Num_OVI"),
-                        csvRecord.get("Num_RUM"),
-                        csvRecord.get("TypeEnergie"),
-                        csvRecord.get("Produit_Comm"),
+                        csvRecord.get("NumCP"),
+                        csvRecord.get("IdTiers"),
+                        csvRecord.get("RaisonSocial"),
+                        csvRecord.get("NumSIREN"),
                         csvRecord.get("Produit"),
                         csvRecord.get("Phase"),
-                        csvRecord.get("Montant_pret"),
                         new HashMap<>()
                 );
 
@@ -101,25 +88,12 @@ public class CSVHelper {
     public static Contrat ocrToContrats(Map<String, String> record) {
         return new Contrat(
             null,
-            record.get("Num_dossierKPS"),
-            record.get("Num_CP"),
-            record.get("Raison_Social"),
-            record.get("Id_Tiers"),
-            record.get("Num_DC"),
-            record.get("Num_SDC"),
-            record.get("Num_CIR"),
-            record.get("Num_SIREN"),
-            record.get("Ref_Collaborative"),
-            record.get("Code_Produit"),
-            record.get("Identifiant_de_offre_comm"),
-            record.get("Chef_de_File"),
-            record.get("Num_OVI"),
-            record.get("Num_RUM"),
-            record.get("TypeEnergie"),
-            record.get("Produit_Comm"),
+            record.get("NumCP"),
+            record.get("RaisonSocial"),
+            record.get("IdTiers"),
+            record.get("NumSIREN"),
             record.get("Produit"),
             record.get("Phase"),
-            record.get("Montant_pret"),
                 new HashMap<>()
         );
 

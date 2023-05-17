@@ -22,29 +22,25 @@ public class Contrat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String Num_dossierKPS;
-    private String Num_CP;
-    private String Raison_Social;
-    private String Id_Tiers;
-    private String Num_DC;
-    private String Num_SDC;
-    private String Num_CIR;
-    private String Num_SIREN;
-    private String Ref_Collaborative;
-    private String Code_Produit;
-    private String Identifiant_de_offre_comm;
-    private String Chef_de_File;
-    private String Num_OVI;
-    private String Num_RUM;
-    private String TypeEnergie;
-    private String Produit_Comm;
+    private String NumCP;
+    private String RaisonSocial;
+    private String IdTiers;
+    private String NumSIREN;
     private String Produit;
     private String Phase;
-    private String Montant_pret;
+
 
     @Convert(converter = HashMapConverter.class)
     private Map<String, Object> customAttributes;
 
-    public Contrat(Object o, String numDossier, String numCp, String raisonSocial, String idTiers, String numDc, String numSdc, String numCir, String numSiren, String refColl, String codeProduit, String idDeOffreComm, String chefDeFile, String numOvi, String numRum, String typeenregie, String produitComm, String produit, String phase, String montantPret) {
+    public Contrat(Long id, String numCP, String raisonSocial, String idTiers, String numSIREN, String produit, String phase) {
+        this.id = id;
+        NumCP = numCP;
+        RaisonSocial = raisonSocial;
+        IdTiers = idTiers;
+        NumSIREN = numSIREN;
+        Produit = produit;
+        Phase = phase;
+
     }
 }
