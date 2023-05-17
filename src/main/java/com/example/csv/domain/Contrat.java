@@ -23,20 +23,20 @@ public class Contrat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String Num_dossierKPS;
-    private String Num_CP;
-    private String Raison_Social;
-    private String Id_Tiers;
+
+    private String NumCP;
+    private String RaisonSocial;
+    private String IdTiers;
     
-    private String Num_SIREN;
+    private String NumSIREN;
 
-    private String Code_Produit;
 
-    private String Chef_de_File;
+
+
 
     private String Produit;
 
-    private String Montant_pret;
+    private String Phase;
 
     public Contrat(Long id) {
         this.id = id ;

@@ -58,13 +58,11 @@ class ContratServiceTest {
 
         Contrat contrat = new Contrat(
                 null,
-                "num_dossier",
+
                 "num_cp",
                 "raison_Social",
                 "id_Tiers",
                 "num_siren",
-                "code_produit",
-                "chef_de_file",
                 "produit",
                 "montant_pret");
         contratService.save(contrat);
@@ -84,7 +82,7 @@ class ContratServiceTest {
 
     @Test
     void testGetContrat() {
-        Contrat expectedContrat = new Contrat(31L,"dfydn","1","ztfop","amgqv","fmkzu","zqmyl","bfixm","yyvwp","vegzu");
+        Contrat expectedContrat = new Contrat(31L,"dfydn","1","ztfop","amgqv","fmkzu","zqmyl");
 
 
 
@@ -104,15 +102,14 @@ class ContratServiceTest {
     void updateContrat(){
         Contrat contrat = new Contrat(
                 31L,
-                "num_dossier",
+
                 "num_cp",
                 "raison_Social",
                 "id_Tiers",
                 "num_siren",
-                "code_produit",
-                "chef_de_file",
+
                 "produit",
-                "montant_pret");
+                "Phase");
 
         //then
        boolean result = contratService.update(contrat);
@@ -126,15 +123,14 @@ class ContratServiceTest {
 
         Contrat contrat = new Contrat(
                 31l,
-                "num_dossier",
+
                 "num_cp",
                 "raison_Social",
                 "id_Tiers",
                 "num_siren",
-                "code_produit",
-                "chef_de_file",
+
                 "produit",
-                "montant_pret");
+                "Phase");
         contratService.delete(contrat.getId());
 
         Mockito.verify(contratRepository).deleteById(contrat.getId());
@@ -160,10 +156,7 @@ class ContratServiceTest {
                 "ztfop",
                 "amgqv",
                 "fmkzu",
-                "zqmyl",
-                "bfixm",
-                "yyvwp",
-                "vegzu"
+                "zqmyl"
                 ));
         expectedContrats.add( new Contrat(
                 null,
@@ -172,10 +165,7 @@ class ContratServiceTest {
                 "ztfop",
                 "amgqv",
                 "fmkzu",
-                "zqmyl",
-                "bfixm",
-                "yyvwp",
-                "vegzu"
+                "zqmyl"
                 ));
 
         // create a mock CSVHelper that returns the expected Contrat objects
@@ -214,8 +204,8 @@ class ContratServiceTest {
     void testGetAllContrat() {
         List<Contrat> expectedContrats = new ArrayList<>();
         // create some test data
-        Contrat contrat1 = new Contrat(31L,"dfydn","1","ztfop","amgqv","fmkzu","zqmyl","bfixm","yyvwp","vegzu");
-        Contrat contrat2= new Contrat(32L,"dfydn","1","ztfop","amgqv","fmkzu","zqmyl","bfixm","yyvwp","vegzu");
+        Contrat contrat1 = new Contrat(31L,"dfydn","1","ztfop","amgqv","fmkzu","zqmyl");
+        Contrat contrat2= new Contrat(32L,"dfydn","1","ztfop","amgqv","fmkzu","zqmyl");
 
         expectedContrats.add(contrat1);
         expectedContrats.add(contrat2);

@@ -56,15 +56,13 @@ public class CSVHelper {
             for (CSVRecord csvRecord : csvRecords) {
                 Contrat contrat = new Contrat(
                         null,
-                        csvRecord.get("Num_dossierKPS"),
-                        csvRecord.get("Num_CP"),
-                        csvRecord.get("Raison_Social"),
-                        csvRecord.get("Id_Tiers"),
-                        csvRecord.get("Num_SIREN"),
-                        csvRecord.get("Code_Produit"),
-                        csvRecord.get("Chef_de_File"),
+
+                        csvRecord.get("NumCP"),
+                        csvRecord.get("RaisonSocial"),
+                        csvRecord.get("IdTiers"),
+                        csvRecord.get("NumSIREN"),
                         csvRecord.get("Produit"),
-                        csvRecord.get("Montant_pret")
+                        csvRecord.get("Phase")
                 );
 
                 contrats.add(contrat);
@@ -91,15 +89,14 @@ public class CSVHelper {
     public static Contrat ocrToContrats(Map<String, String> record) {
         return new Contrat(
             null,
-            record.get("Num_dossierKPS"),
-            record.get("Num_CP"),
-            record.get("Raison_Social"),
-            record.get("Id_Tiers"),
-            record.get("Num_SIREN"),
-            record.get("Code_Produit"),
-            record.get("Chef_de_File"),
+
+            record.get("NumCP"),
+            record.get("RaisonSocial"),
+            record.get("IdTiers"),
+            record.get("NumSIREN"),
+
             record.get("Produit"),
-            record.get("Montant_pret")
+            record.get("Phase")
         );
 
     }
