@@ -32,10 +32,12 @@ com\example\csv\domain\ResponseMessage.class
 com\example\csv\auth\AuthenticationResponse$AuthenticationResponseBuilder.class
 com\example\csv\components\CustomKafkaListener.class
 com\example\csv\controllers\TiersController.class
+com\example\csv\config\HashMapConverter$1.class
 com\example\csv\auth\RegisterRequest.class
 com\example\csv\CsvApplication.class
 com\example\csv\DTO\DossierDTO.class
 com\example\csv\services\AdminService.class
+com\example\csv\config\HashMapConverter.class
 com\example\csv\repositories\UserRepository.class
 com\example\csv\config\RequestCorsFilter.class
 com\example\csv\config\WebSocketConfig.class

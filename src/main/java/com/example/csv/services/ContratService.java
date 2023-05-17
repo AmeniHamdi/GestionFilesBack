@@ -23,8 +23,10 @@ public interface ContratService {
     void delete(Long id);
     boolean update(Contrat contrat);
     GetAllType<Contrat> getAllContrats(Integer pageNo, Integer pageSize, String sortBy, boolean asc);
+
      Long countContracts();
 
     List<ProduitDTO> countContractsByProduit();
+
 
 }

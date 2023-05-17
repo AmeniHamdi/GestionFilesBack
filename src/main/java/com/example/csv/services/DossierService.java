@@ -29,7 +29,8 @@ public interface DossierService {
     GetAllType<Dossier> getAllDossiers(Integer pageNo, Integer pageSize, String sortBy, boolean asc);
 
     public List<Dossier> findDossierWithSorting(String field);
-
     public Long countDossier();
+
+
 
 }

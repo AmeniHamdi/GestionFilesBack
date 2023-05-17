@@ -115,7 +115,8 @@ class ContratControllerTest {
 
         // Create a new contrat object
         Contrat contrat = new Contrat();
-        contrat.setChef_de_File("new chef de file ");
+
+        contrat.setNumCP("new num");
 
         // Set up a mock file service that returns the same contrat object
         when(contratService.save(any(Contrat.class))).thenReturn(contrat);
@@ -210,37 +211,7 @@ class ContratControllerTest {
                 .andExpect(status().isNoContent())
                 .andExpect(content().string(""));
     }
-//    @Test
-//    void getDossierWithSorting() throws Exception {
-//        // Create some Dossier objects
-//        Dossier dossier1 = new Dossier();
-//        dossier1.setId(1L);
-//        dossier1.setDossier_DC("Dossier 1");
-//
-//        Dossier dossier2 = new Dossier();
-//        dossier2.setId(2L);
-//        dossier2.setDossier_DC("Dossier 1");
-//
-//        // Set up the mock file service to return a list of the Dossier objects
-//        List<Dossier> dossiers = Arrays.asList(dossier1, dossier2);
-//        when(dossierService.findDossierWithSorting(anyString())).thenReturn(dossiers);
-//
-//        // Send a GET request to the endpoint with a field parameter
-//        MockHttpServletRequestBuilder requestBuilder = get("/api/csv/dossier/get/{field}", "Dossier_DC")
-//                .contentType(MediaType.APPLICATION_JSON);
-//        MvcResult result = mvc.perform(requestBuilder)
-//                .andExpect(status().isOk())
-//                .andReturn();
-//
-//        // Verify that the response contains the correct Dossier objects, sorted by the creation date field
-//        String responseContent = result.getResponse().getContentAsString();
-//        List<Dossier> responseDossiers = objectMapper.readValue(responseContent, new TypeReference<List<Dossier>>(){});
-//        assertEquals(2, responseDossiers.size());
-//        assertEquals(1L, responseDossiers.get(0).getId());
-//        assertEquals("Dossier 1", responseDossiers.get(0).getDossier_DC());
-//        assertEquals(2L, responseDossiers.get(1).getId());
-//        assertEquals("Dossier 1", responseDossiers.get(1).getDossier_DC());
-//    }
+
     @Test
     public void testUpdateContrat() {
         Contrat contrat = new Contrat();

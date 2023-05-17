@@ -94,6 +94,9 @@ public class ContratController {
         GetAllType<Contrat> data = fileService.getAllContrats(page, size, sortBy, asc);
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
+
+    @CrossOrigin
+
     @GetMapping("/count")
     public Long getContractsCount() {
         return fileService.countContracts();

@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,7 +65,8 @@ class ContratServiceTest {
                 "id_Tiers",
                 "num_siren",
                 "produit",
-                "montant_pret");
+                "montant_pret",
+                new HashMap<>());
         contratService.save(contrat);
 
         ArgumentCaptor<Contrat> contratArgumentCaptor = ArgumentCaptor.forClass(Contrat.class);
@@ -82,7 +84,7 @@ class ContratServiceTest {
 
     @Test
     void testGetContrat() {
-        Contrat expectedContrat = new Contrat(31L,"dfydn","1","ztfop","amgqv","fmkzu","zqmyl");
+        Contrat expectedContrat = new Contrat(31L,"dfydn","1","ztfop","amgqv","fmkzu","zqmyl",new HashMap<>());
 
 
 
@@ -109,7 +111,8 @@ class ContratServiceTest {
                 "num_siren",
 
                 "produit",
-                "Phase");
+                "Phase",
+                new HashMap<>());
 
         //then
        boolean result = contratService.update(contrat);
@@ -130,7 +133,8 @@ class ContratServiceTest {
                 "num_siren",
 
                 "produit",
-                "Phase");
+                "Phase"
+                ,new HashMap<>());
         contratService.delete(contrat.getId());
 
         Mockito.verify(contratRepository).deleteById(contrat.getId());
@@ -157,6 +161,7 @@ class ContratServiceTest {
                 "amgqv",
                 "fmkzu",
                 "zqmyl"
+                ,new HashMap<>()
                 ));
         expectedContrats.add( new Contrat(
                 null,
@@ -166,6 +171,7 @@ class ContratServiceTest {
                 "amgqv",
                 "fmkzu",
                 "zqmyl"
+                ,new HashMap<>()
                 ));
 
         // create a mock CSVHelper that returns the expected Contrat objects
@@ -204,8 +210,8 @@ class ContratServiceTest {
     void testGetAllContrat() {
         List<Contrat> expectedContrats = new ArrayList<>();
         // create some test data
-        Contrat contrat1 = new Contrat(31L,"dfydn","1","ztfop","amgqv","fmkzu","zqmyl");
-        Contrat contrat2= new Contrat(32L,"dfydn","1","ztfop","amgqv","fmkzu","zqmyl");
+        Contrat contrat1 = new Contrat(31L,"dfydn","1","ztfop","amgqv","fmkzu","zqmyl",new HashMap<>());
+        Contrat contrat2= new Contrat(32L,"dfydn","1","ztfop","amgqv","fmkzu","zqmyl",new HashMap<>());
 
         expectedContrats.add(contrat1);
         expectedContrats.add(contrat2);

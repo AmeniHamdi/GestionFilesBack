@@ -1,0 +1,407 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.5.6.12127",
+      "templateHash": "17016281914347876853"
+    }
+  },
+  "parameters": {
+    "name": {
+      "type": "string",
+      "defaultValue": "ameni-cdz",
+      "metadata": {
+        "description": "Name for the container group"
+      }
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]",
+      "metadata": {
+        "description": "Location for all resources."
+      }
+    }
+  },
+  "resources": [
+    {
+      "apiVersion": "2020-06-01",
+      "type": "Microsoft.Network/virtualNetworks",
+      "name": "myVnet1",
+      "location": "[parameters('location')]",
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "10.0.0.0/16"
+          ]
+        },
+        "subnets": [
+          {
+            "name": "mySubnet1",
+            "properties": {
+              "addressPrefix": "10.0.1.0/24",
+              "delegations": [
+                {
+                  "name": "aci-delegation",
+                  "properties": {
+                    "serviceName": "Microsoft.ContainerInstance/containerGroups"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "loadBalencerSubnet",
+            "properties": {
+              "addressPrefix": "10.0.0.0/24"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.ContainerInstance/containerGroups",
+      "apiVersion": "2021-07-01",
+      "name": "[parameters('name')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/virtualNetworks', 'myVnet1')]"
+      ],
+      "properties": {
+        "restartPolicy": "OnFailure",
+        "imageRegistryCredentials": [
+          {
+            "server": "amenicdz.azurecr.io",
+            "username": "amenicdz",
+            "password": "XXOjzo8y3uLnpa+eE3+q8n9Zwj7HWwh78RMUYATuzk+ACRCcEtVL"
+          }
+        ],
+        "subnetIds": [
+          {
+            "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', 'myVnet1', 'mySubnet1')]"
+          }
+
+        ],
+        "containers": [
+          {
+            "name": "kafka",
+            "properties": {
+              "image": "johnnypark/kafka-zookeeper",
+              "ports": [
+                {
+                  "protocol": "TCP",
+                  "port": 9092
+                }
+              ],
+              "environmentVariables": [
+                {
+                  "name": "ADVERTISED_HOST",
+                  "value": "10.0.1.4"
+                }
+              ],
+              "resources": {
+                "requests": {
+                  "memoryInGB": 1.5,
+                  "cpu": 1
+                }
+              }
+            }
+          },
+          {
+            "name": "cdz-front",
+            "properties": {
+              "image": "amenicdz.azurecr.io/amenih/cdzfront:v1",
+              "ports": [
+                {
+                  "port": 80,
+                  "protocol": "TCP"
+                }
+              ],
+              "resources": {
+                "requests": {
+                  "cpu": 0.5,
+                  "memoryInGB": 0.5
+                }
+              }
+            }
+          },
+          {
+            "name": "cdz-backend",
+            "properties": {
+              "image": "amenicdz.azurecr.io/amenih/talentcdz:v5",
+              "ports": [
+                {
+                  "port": 8087,
+                  "protocol": "TCP"
+                }
+              ],
+              "resources": {
+                "requests": {
+                  "cpu": 1,
+                  "memoryInGB": 0.5
+                }
+              },
+              "environmentVariables": [
+                {
+                  "name": "SPRING_APPLICATION_JSON",
+                  "value": "{
+                  \"spring.datasource.url\"  : \"jdbc:mysql://10.0.1.4:3306/document?useSSL=false&allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true\",
+                  \"spring.datasource.username\" : \"root\",
+                  \"spring.datasource.password\" : \"root\",
+                  \"spring.jpa.properties.hibernate.dialect\" : \"org.hibernate.dialect.MySQL5InnoDBDialect\",
+                  \"spring.jpa.hibernate.ddl-auto\" : \"update\",
+                  \"spring.kafka.bootstrap-servers\": \"PLAINTEXT_HOST://10.0.1.4:9092\",
+                  \"spring.kafka.fileTopic\": \"fileTopic\",
+                  \"server.address\": \"0.0.0.0\"
+                }"
+                }
+              ]
+            }
+          },
+          {
+            "name": "cdz-mysql",
+            "properties": {
+              "image": "mysql",
+              "ports": [
+                {
+                  "port": 33060,
+                  "protocol": "TCP"
+                },
+                {
+                  "port": 3306,
+                  "protocol": "TCP"
+                }
+              ],
+              "resources": {
+                "requests": {
+                  "cpu": 0.5,
+                  "memoryInGB": 1
+                }
+              },
+              "environmentVariables": [
+                {
+                  "name": "MYSQL_ROOT_PASSWORD",
+                  "secureValue": "root"
+                },
+                {
+                  "name": "MYSQLDB_DATABASE",
+                  "value": "document"
+                }
+              ]
+            }
+          },
+          {
+            "name": "cdz-ocr",
+            "properties": {
+              "image": "amenicdz.azurecr.io/amenih/cdzocr:v4",
+              "resources": {
+                "requests": {
+                  "cpu": 0.5,
+                  "memoryInGB": 1
+                }
+              },
+              "environmentVariables": [
+                {
+                  "name": "SPRING_APPLICATION_JSON",
+                  "value": "{
+                  \"server.port\"  : \"8090\",
+                  \"spring.kafka.bootstrap-servers\": \"PLAINTEXT_HOST://10.0.1.4:9092\",
+                  \"tesseract.dataPath\": \"/usr/share/tessdata/\"
+                }"
+                }
+              ]
+            }
+          }
+        ],
+        "osType": "Linux"
+      }
+    },
+    {
+      "type": "Microsoft.Network/applicationGateways",
+      "apiVersion": "2022-11-01",
+      "name": "cdzgate",
+      "location": "[parameters('location')]",
+      "properties": {
+        "sku": {
+          "name": "Standard_v2",
+          "tier": "Standard_v2",
+          "capacity": 1
+        },
+        "gatewayIPConfigurations": [
+          {
+            "name": "appGatewayIpConfig",
+            "id": "[concat(resourceId('Microsoft.Network/applicationGateways', 'cdzgate'), '/gatewayIPConfigurations/appGatewayIpConfig')]",
+            "properties": {
+              "subnet": {
+                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', 'myVnet1', 'loadBalencerSubnet')]"
+              }
+            }
+          }
+        ],
+        "frontendIPConfigurations": [
+          {
+            "name": "appGwPublicFrontendIpIPv4",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', 'myPublicIP')]"
+              }
+            }
+          }
+        ],
+        "frontendPorts": [
+          {
+            "name": "backendPort",
+            "properties": {
+              "port": 8087
+            }
+          },
+          {
+            "name": "frontendPort",
+            "properties": {
+              "port": 80
+            }
+          }
+        ],
+        "backendAddressPools": [
+          {
+            "name": "App",
+            "id": "[concat(resourceId('Microsoft.Network/applicationGateways', 'cdzgate'), '/backendAddressPools/App')]",
+            "properties": {
+              "backendAddresses": [
+                {
+                  "ipAddress": "10.0.1.4"
+                }
+              ]
+            }
+          }
+        ],
+        "loadDistributionPolicies": [],
+        "backendHttpSettingsCollection": [
+          {
+            "name": "Backend",
+            "id": "[concat(resourceId('Microsoft.Network/applicationGateways', 'cdzgate'), '/backendHttpSettingsCollection/Backend')]",
+            "properties": {
+              "port": 8087,
+              "protocol": "Http",
+              "cookieBasedAffinity": "Disabled",
+              "connectionDraining": {
+                "enabled": true,
+                "drainTimeoutInSec": 60
+              },
+              "pickHostNameFromBackendAddress": false,
+              "requestTimeout": 200,
+              "probe": {
+                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', 'cdzgate'), '/probes/BP')]"
+              }
+            }
+          },
+          {
+            "name": "Frontend",
+            "id": "[concat(resourceId('Microsoft.Network/applicationGateways', 'cdzgate'), '/backendHttpSettingsCollection/Frontend')]",
+            "properties": {
+              "port": 80,
+              "protocol": "Http",
+              "cookieBasedAffinity": "Disabled",
+              "pickHostNameFromBackendAddress": false,
+              "requestTimeout": 20
+            }
+          }
+        ],
+        "backendSettingsCollection": [],
+        "httpListeners": [
+          {
+            "name": "Backend",
+            "id": "[concat(resourceId('Microsoft.Network/applicationGateways', 'cdzgate'), '/httpListeners/Backend')]",
+            "properties": {
+              "frontendIPConfiguration": {
+                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', 'cdzgate'), '/frontendIPConfigurations/appGwPublicFrontendIpIPv4')]"
+              },
+              "frontendPort": {
+                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', 'cdzgate'), '/frontendPorts/backendPort')]"
+              },
+              "protocol": "Http"
+            }
+          },
+          {
+            "name": "Frontend",
+            "id": "[concat(resourceId('Microsoft.Network/applicationGateways', 'cdzgate'), '/httpListeners/Frontend')]",
+            "properties": {
+              "frontendIPConfiguration": {
+                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', 'cdzgate'), '/frontendIPConfigurations/appGwPublicFrontendIpIPv4')]"
+              },
+              "frontendPort": {
+                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', 'cdzgate'), '/frontendPorts/frontendPort')]"
+              },
+              "protocol": "Http"
+            }
+          }
+        ],
+        "requestRoutingRules": [
+          {
+            "name": "Backend",
+            "id": "[concat(resourceId('Microsoft.Network/applicationGateways', 'cdzgate'), '/requestRoutingRules/Backend')]",
+            "properties": {
+              "ruleType": "Basic",
+              "priority": 1,
+              "httpListener": {
+                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', 'cdzgate'), '/httpListeners/Backend')]"
+              },
+              "backendAddressPool": {
+                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', 'cdzgate'), '/backendAddressPools/App')]"
+              },
+              "backendHttpSettings": {
+                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', 'cdzgate'), '/backendHttpSettingsCollection/Backend')]"
+              }
+            }
+          },
+          {
+            "name": "Frontend",
+            "id": "[concat(resourceId('Microsoft.Network/applicationGateways', 'cdzgate'), '/requestRoutingRules/Frontend')]",
+            "properties": {
+              "ruleType": "Basic",
+              "priority": 2,
+              "httpListener": {
+                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', 'cdzgate'), '/httpListeners/Frontend')]"
+              },
+              "backendAddressPool": {
+                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', 'cdzgate'), '/backendAddressPools/App')]"
+              },
+              "backendHttpSettings": {
+                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', 'cdzgate'), '/backendHttpSettingsCollection/Frontend')]"
+              }
+            }
+          }
+        ],
+        "probes": [
+          {
+            "name": "BP",
+            "id": "[concat(resourceId('Microsoft.Network/applicationGateways', 'cdzgate'), '/probes/BP')]",
+            "properties": {
+              "protocol": "Http",
+              "host": "10.0.1.4",
+              "path": "/auth/authenticate",
+              "interval": 30,
+              "timeout": 30,
+              "unhealthyThreshold": 3,
+              "pickHostNameFromBackendHttpSettings": false,
+              "minServers": 0,
+              "match": {
+                "statusCodes": [
+                  "200-599"
+                ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "outputs": {
+    "containerIPv4Address": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.ContainerInstance/containerGroups', parameters('name'))).ipAddress.ip]"
+    }
+  }
+}

@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,7 +56,8 @@ class DossierServiceImplTest {
                 "1",
                 "ikhog",
                 "ihynr",
-                "jxudn");
+                "jxudn",
+                new HashMap<>());
 
         //When
         dossierService.save(dossier);
@@ -77,7 +79,8 @@ class DossierServiceImplTest {
                 "1",
                 "ikhog",
                 "ihynr",
-                "jxudn");
+                "jxudn",
+                new HashMap<>());
 
         //then
         when(dossierRepo.findById(31L)).thenReturn(Optional.of(expectedDossier));
@@ -101,7 +104,8 @@ class DossierServiceImplTest {
                 "1",
                 "ikhog",
                 "ihynr",
-                "jxudn");
+                "jxudn",
+                new HashMap<>());
 
         //then
         boolean result = dossierService.update(dossier);
@@ -120,7 +124,8 @@ class DossierServiceImplTest {
                 "1",
                 "ikhog",
                 "ihynr",
-                "jxudn");
+                "jxudn",
+                new HashMap<>());
 
         //then
         dossierService.delete(dossier.getId());
@@ -147,7 +152,8 @@ class DossierServiceImplTest {
                 "1",
                 "ikhog",
                 "ihynr",
-                "jxudn"));
+                "jxudn",
+                new HashMap<>()));
 
         expectedDossiers.add( new Dossier(
                 null,
@@ -155,7 +161,7 @@ class DossierServiceImplTest {
                 "1",
                 "ikhog",
                 "ihynr",
-                "jxudn"));
+                "jxudn", new HashMap<>()));
 
         // create a mock CSVHelper that returns the expected dossier objects
         CSVHelper csvHelper = Mockito.mock(CSVHelper.class);
@@ -190,8 +196,8 @@ class DossierServiceImplTest {
     @Test
     void getAllDossiers() {
         // create some test data
-        Dossier dossier1 = new Dossier(32l, "hbvba", "1", "ikhog", "ihynr", "jxudn");
-        Dossier dossier2= new Dossier(31l, "hbvba", "1", "ikhog", "ihynr", "jxudn");
+        Dossier dossier1 = new Dossier(32l, "hbvba", "1", "ikhog", "ihynr", "jxudn",new HashMap<>());
+        Dossier dossier2= new Dossier(31l, "hbvba", "1", "ikhog", "ihynr", "jxudn",new HashMap<>());
         List<Dossier> expectedDossier = new ArrayList<>();
         expectedDossier.add(dossier1);
         expectedDossier.add(dossier2);

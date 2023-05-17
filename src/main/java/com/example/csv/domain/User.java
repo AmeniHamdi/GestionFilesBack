@@ -35,6 +35,8 @@ import java.util.List;
         @ManyToOne(cascade = CascadeType.ALL)
         private UserRole role;
 
+
+
         @Column(name = "verification_code", length = 64)
         private String verificationCode;
 
