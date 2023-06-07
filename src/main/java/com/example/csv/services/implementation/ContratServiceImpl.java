@@ -35,8 +35,13 @@ public class ContratServiceImpl implements ContratService {
 
     @Override
     public Contrat save(Contrat contrat) {
-        contratRepo.save(contrat);
-        return contrat;
+        if(contrat.getPhase()==null ||contrat.getProduit()==null || contrat.getIdTiers()==null )
+        { System.out.println( "Could not save the contract");
+            return  null;}
+        else {
+            contratRepo.save(contrat);
+            return contrat;
+        }
     }
 
     @Override

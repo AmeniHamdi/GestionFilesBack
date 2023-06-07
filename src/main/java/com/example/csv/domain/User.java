@@ -56,6 +56,8 @@ import java.util.List;
             return List.of(new SimpleGrantedAuthority(role.getRole().toString()));
         }
 
+
+
         @Override
         public String getUsername() {
             return email;

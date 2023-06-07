@@ -138,7 +138,7 @@ public class TiersController {
     @CrossOrigin
     @GetMapping("/tiersbynumero")
     public List<NumeroDTO> countTiersByNumero() {
-        System.out.println("essaihhhhhhhhhhhhhhhhh");
+        
         return fileService.countTiersByNumero();
     }
 
