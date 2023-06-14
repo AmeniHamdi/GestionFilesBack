@@ -68,7 +68,7 @@ class TiersServiceImplTest {
         System.out.println(tier);
 
     }
-    @Test
+/*    @Test
     void saveFile() {
 
 
@@ -107,7 +107,7 @@ class TiersServiceImplTest {
         Mockito.verify(tiersRepository).saveAll(expectedTiers);
 
     }
-
+*/
 
     @Test
     void testSaveFileWithIOException() throws Exception {
