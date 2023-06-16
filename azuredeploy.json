@@ -129,7 +129,7 @@
           {
             "name": "cdz-backend",
             "properties": {
-              "image": "amenicdz.azurecr.io/amenih/talentcdz:v7",
+              "image": "amenicdz.azurecr.io/amenih/talentcdz:v8",
               "ports": [
                 {
                   "port": 8087,
